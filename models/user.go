@@ -7,24 +7,26 @@ import (
 )
 
 type User struct {
-	UserUUID  uuid.UUID
-	Username  string
-	Email     string
-	Phone     string
-	FirstName string
-	LastName  string
-	Addresses []string
+	UserUUID         uuid.UUID
+	Username         string
+	Email            string
+	Phone            string
+	FirstName        string
+	LastName         string
+	ValidationStatus int
+	Addresses        []string
 }
 
 type UpdateUserRequest struct {
-	UserUUID  uuid.UUID
-	Username  *string
-	Email     *string
-	Phone     *string
-	FirstName *string
-	LastName  *string
-	Avatar    *string
-	Addresses []string
+	UserUUID         uuid.UUID
+	ValidationStatus *int
+	Username         *string
+	Email            *string
+	Phone            *string
+	FirstName        *string
+	LastName         *string
+	Avatar           *string
+	Addresses        []string
 }
 
 // UserFromProto is
@@ -75,6 +77,9 @@ func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
 	if u.Addresses != nil {
 		fields.Addresses = u.Addresses
 	}
+	if u.ValidationStatus != nil {
+		fields.ValidationStatus = int64(*u.ValidationStatus)
+	}
 	return fields
 }
 
@@ -107,5 +112,13 @@ func UpdateUserRequestFromProto(pb *proto.UpdateUserRequest) *UpdateUserRequest 
 	if pb.Addresses != nil {
 		req.Addresses = pb.Addresses
 	}
+	if pb.ValidationStatus != 0 {
+		req.ValidationStatus = validStatusFromProto(pb.ValidationStatus)
+	}
 	return req
+}
+
+func validStatusFromProto(status int64) *int {
+	toIntPtr := int(status)
+	return &toIntPtr
 }
