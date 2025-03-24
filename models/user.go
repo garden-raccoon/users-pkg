@@ -13,6 +13,7 @@ type User struct {
 	Phone            string
 	FirstName        string
 	LastName         string
+	Avatar           string
 	ValidationStatus int
 	Addresses        []string
 }
