@@ -1,0 +1,67 @@
+syntax = "proto3";
+package service;
+
+option go_package = "protocols/users";
+
+import "api-models.proto";
+
+// UserService is
+service UserService {
+    rpc CreateUser(models.User) returns(UserEmpty);
+
+    rpc CheckAuth(TokenRequest) returns(models.User);
+    rpc UserBy(UserGetter) returns(models.User);
+
+    rpc UpdateUser(UpdateUserRequest) returns(models.User);
+    rpc SignUp(SignUpRequest) returns(TokenResponse);
+    // SignInRequest
+    rpc SignIn(SignInRequest) returns(TokenResponse);
+
+}
+
+message UpdateUserRequest {
+    bytes   user_uuid        = 1;
+    string  email       = 2;
+    string  username     = 3;
+    string  first_name    = 4;
+    string  last_name    = 5;
+    string  avatar      = 6;
+    string  phone       = 7;
+    repeated string addresses = 8;
+}
+
+// SignUpRequest is
+message SignUpRequest {
+    oneof login_type {
+        string  phone   = 1;
+        string  email   = 2;
+    }
+    bytes   password    = 3;
+}
+
+// SignInRequest is
+message SignInRequest {
+    oneof login_type {
+        string  phone   = 1;
+        string  email   = 2;
+    }
+    bytes   password    = 3;
+}
+message UserEmpty {}
+
+message TokenRequest {
+    bytes   token   = 1;
+}
+
+// TokenResponse is response with session JWT
+message TokenResponse {
+    bytes   token   = 1;
+}
+
+message UserGetter {
+    oneof getter {
+        bytes   user_uuid    = 1;
+        string  email   = 2;
+        string  phone = 3;
+    }
+}
