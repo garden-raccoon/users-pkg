@@ -37,7 +37,7 @@ type UserServiceClient interface {
 	CheckAuth(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*User, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
-	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	// SignInRequest
 	SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 }
@@ -90,9 +90,9 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 	return out, nil
 }
 
-func (c *userServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
+func (c *userServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TokenResponse)
+	out := new(SignUpResponse)
 	err := c.cc.Invoke(ctx, UserService_SignUp_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ type UserServiceServer interface {
 	CheckAuth(context.Context, *TokenRequest) (*User, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
-	SignUp(context.Context, *SignUpRequest) (*TokenResponse, error)
+	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	// SignInRequest
 	SignIn(context.Context, *SignInRequest) (*TokenResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -145,7 +145,7 @@ func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*Use
 func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*TokenResponse, error) {
+func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
 }
 func (UnimplementedUserServiceServer) SignIn(context.Context, *SignInRequest) (*TokenResponse, error) {

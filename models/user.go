@@ -17,7 +17,9 @@ type User struct {
 	ValidationStatus int
 	Addresses        []string
 }
-
+type SignUpResponse struct {
+	UserUUID uuid.UUID
+}
 type UpdateUserRequest struct {
 	UserUUID         uuid.UUID
 	ValidationStatus *int

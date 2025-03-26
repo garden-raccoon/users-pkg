@@ -14,7 +14,7 @@ service UserService {
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
 
-    rpc SignUp(SignUpRequest) returns(TokenResponse);
+    rpc SignUp(SignUpRequest) returns(SignUpResponse);
     // SignInRequest
     rpc SignIn(SignInRequest) returns(TokenResponse);
 
@@ -31,7 +31,9 @@ message UpdateUserRequest {
     repeated string addresses              = 8;
     string          phone                  = 9;
 }
-
+message SignUpResponse{
+    bytes user_uuid = 1;
+}
 // SignUpRequest is
 message SignUpRequest {
     oneof login_type {

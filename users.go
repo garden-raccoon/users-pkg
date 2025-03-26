@@ -34,13 +34,13 @@ type IUserAPI interface {
 	UpdateUser(user *models.UpdateUserRequest) (*models.User, error)
 
 	// SignUpByEmail is
-	SignUpByEmail(email string, password []byte) ([]byte, error)
+	SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error)
 
 	// SignInByEmail is
 	SignInByEmail(email string, password []byte) ([]byte, error)
 
 	// SignUpByPhone is
-	SignUpByPhone(phone string, password []byte) ([]byte, error)
+	SignUpByPhone(phone string, password []byte) (*models.SignUpResponse, error)
 
 	// SignInByPhone is
 	SignInByPhone(phone string, password []byte) ([]byte, error)
@@ -115,7 +115,7 @@ func (api *UsersAPI) CheckAuth(token []byte) (*models.User, error) {
 }
 
 // SignUpByEmail is
-func (api *UsersAPI) SignUpByEmail(email string, password []byte) ([]byte, error) {
+func (api *UsersAPI) SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	opts := &proto.SignUpRequest{
@@ -126,7 +126,8 @@ func (api *UsersAPI) SignUpByEmail(email string, password []byte) ([]byte, error
 	if err != nil {
 		return nil, fmt.Errorf("signUp by email request has been failed: %w", err)
 	}
-	return resp.Token, nil
+	signUpResp := &models.SignUpResponse{UserUUID: uuid.FromBytesOrNil(resp.UserUuid)}
+	return signUpResp, nil
 }
 
 // SignInByEmail is
@@ -146,7 +147,7 @@ func (api *UsersAPI) SignInByEmail(email string, password []byte) ([]byte, error
 }
 
 // SignUpByPhone is
-func (api *UsersAPI) SignUpByPhone(phone string, password []byte) ([]byte, error) {
+func (api *UsersAPI) SignUpByPhone(phone string, password []byte) (*models.SignUpResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	opts := &proto.SignUpRequest{
@@ -157,7 +158,9 @@ func (api *UsersAPI) SignUpByPhone(phone string, password []byte) ([]byte, error
 	if err != nil {
 		return nil, fmt.Errorf("signUp by phone request has been failed: %w", err)
 	}
-	return resp.Token, nil
+	signUpResp := &models.SignUpResponse{UserUUID: uuid.FromBytesOrNil(resp.UserUuid)}
+
+	return signUpResp, nil
 }
 
 // SignInByPhone is
