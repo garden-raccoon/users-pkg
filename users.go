@@ -17,8 +17,6 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
-const timeOut = 60
-
 type IUserAPI interface {
 
 	// CheckAuth is
@@ -63,8 +61,8 @@ type UsersAPI struct {
 }
 
 // New create new Users IEmployerAPI instance
-func New(addr string) (IUserAPI, error) {
-	api := &UsersAPI{timeout: timeOut * time.Second}
+func New(addr string, timeout time.Duration) (IUserAPI, error) {
+	api := &UsersAPI{timeout: timeout}
 
 	if err := api.initConn(addr); err != nil {
 		return nil, fmt.Errorf("create Users UsersAPI:  %w", err)
