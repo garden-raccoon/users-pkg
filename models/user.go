@@ -16,6 +16,8 @@ type User struct {
 	Avatar           string
 	ValidationStatus int
 	Addresses        []string
+	IpAddress        string
+	SignUpTries      int
 }
 type SignUpResponse struct {
 	UserUUID uuid.UUID
@@ -30,24 +32,30 @@ type UpdateUserRequest struct {
 	LastName         *string
 	Avatar           *string
 	Addresses        []string
+	IpAddress        *string
+	SignUpTries      *int
 }
 
 // UserFromProto is
 func UserFromProto(pb *proto.User) *User {
 	return &User{
-		UserUUID: uuid.FromBytesOrNil(pb.UserUuid),
-		Email:    pb.Email,
-		Username: pb.Username,
-		Phone:    pb.Phone,
+		UserUUID:    uuid.FromBytesOrNil(pb.UserUuid),
+		Email:       pb.Email,
+		Username:    pb.Username,
+		Phone:       pb.Phone,
+		IpAddress:   pb.IpAddress,
+		SignUpTries: int(pb.SignUpTries),
 	}
 }
 
 func (u User) Proto() *proto.User {
 	user := &proto.User{
-		UserUuid: u.UserUUID.Bytes(),
-		Username: u.Username,
-		Email:    u.Email,
-		Phone:    u.Phone,
+		UserUuid:    u.UserUUID.Bytes(),
+		Username:    u.Username,
+		Email:       u.Email,
+		Phone:       u.Phone,
+		IpAddress:   u.IpAddress,
+		SignUpTries: int64(u.SignUpTries),
 	}
 	return user
 }
@@ -80,8 +88,14 @@ func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
 	if u.Addresses != nil {
 		fields.Addresses = u.Addresses
 	}
+	if u.IpAddress != nil {
+		fields.IpAddress = *u.IpAddress
+	}
 	if u.ValidationStatus != nil {
 		fields.ValidationStatus = int64(*u.ValidationStatus)
+	}
+	if u.SignUpTries != nil {
+		fields.SignUpTries = int64(*u.SignUpTries)
 	}
 	return fields
 }
@@ -112,16 +126,20 @@ func UpdateUserRequestFromProto(pb *proto.UpdateUserRequest) *UpdateUserRequest 
 	if pb.Phone != "" {
 		req.Phone = &pb.Phone
 	}
+	if pb.IpAddress != "" {
+		req.IpAddress = &pb.IpAddress
+	}
 	if pb.Addresses != nil {
 		req.Addresses = pb.Addresses
 	}
 	if pb.ValidationStatus != 0 {
-		req.ValidationStatus = validStatusFromProto(pb.ValidationStatus)
+		req.ValidationStatus = int64ToPtrInt(pb.ValidationStatus)
 	}
+	req.SignUpTries = int64ToPtrInt(pb.SignUpTries)
 	return req
 }
 
-func validStatusFromProto(status int64) *int {
+func int64ToPtrInt(status int64) *int {
 	toIntPtr := int(status)
 	return &toIntPtr
 }

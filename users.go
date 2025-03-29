@@ -81,7 +81,6 @@ func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, e
 	if err != nil {
 		return nil, fmt.Errorf("updateUser api request: %w", err)
 	}
-	fmt.Printf("resp is %s \n", resp)
 	return models.UserFromProto(resp), nil
 }
 
