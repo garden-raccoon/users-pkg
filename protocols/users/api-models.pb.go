@@ -33,8 +33,6 @@ type User struct {
 	Avatar           string                 `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar,omitempty"`
 	Addresses        []string               `protobuf:"bytes,8,rep,name=addresses,proto3" json:"addresses,omitempty"`
 	Phone            string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
-	IpAddress        string                 `protobuf:"bytes,10,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
-	SignUpTries      int64                  `protobuf:"varint,11,opt,name=sign_up_tries,json=signUpTries,proto3" json:"sign_up_tries,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -132,25 +130,11 @@ func (x *User) GetPhone() string {
 	return ""
 }
 
-func (x *User) GetIpAddress() string {
-	if x != nil {
-		return x.IpAddress
-	}
-	return ""
-}
-
-func (x *User) GetSignUpTries() int64 {
-	if x != nil {
-		return x.SignUpTries
-	}
-	return 0
-}
-
 var File_api_models_proto protoreflect.FileDescriptor
 
 const file_api_models_proto_rawDesc = "" +
 	"\n" +
-	"\x10api-models.proto\x12\x06models\"\xcd\x02\n" +
+	"\x10api-models.proto\x12\x06models\"\x8a\x02\n" +
 	"\x04User\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -161,11 +145,7 @@ const file_api_models_proto_rawDesc = "" +
 	"\tlast_name\x18\x06 \x01(\tR\blastName\x12\x16\n" +
 	"\x06avatar\x18\a \x01(\tR\x06avatar\x12\x1c\n" +
 	"\taddresses\x18\b \x03(\tR\taddresses\x12\x14\n" +
-	"\x05phone\x18\t \x01(\tR\x05phone\x12\x1d\n" +
-	"\n" +
-	"ip_address\x18\n" +
-	" \x01(\tR\tipAddress\x12\"\n" +
-	"\rsign_up_tries\x18\v \x01(\x03R\vsignUpTriesB\x11Z\x0fprotocols/usersb\x06proto3"
+	"\x05phone\x18\t \x01(\tR\x05phoneB\x11Z\x0fprotocols/usersb\x06proto3"
 
 var (
 	file_api_models_proto_rawDescOnce sync.Once

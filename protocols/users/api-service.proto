@@ -13,7 +13,7 @@ service UserService {
     rpc UserBy(UserGetter) returns(models.User);
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
-
+    rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
     // SignInRequest
     rpc SignIn(SignInRequest) returns(TokenResponse);
@@ -30,11 +30,13 @@ message UpdateUserRequest {
     string      avatar                     = 7;
     repeated string addresses              = 8;
     string          phone                  = 9;
-    string         ip_address              = 10;
-    int64         sign_up_tries             = 11;
 }
 message SignUpResponse{
     bytes user_uuid = 1;
+}
+message VerifyByPhoneRequest{
+    string phone = 1;
+    string check_phrase = 2;
 }
 // SignUpRequest is
 message SignUpRequest {

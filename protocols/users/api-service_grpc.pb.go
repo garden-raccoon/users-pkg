@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_CreateUser_FullMethodName = "/service.UserService/CreateUser"
-	UserService_CheckAuth_FullMethodName  = "/service.UserService/CheckAuth"
-	UserService_UserBy_FullMethodName     = "/service.UserService/UserBy"
-	UserService_UpdateUser_FullMethodName = "/service.UserService/UpdateUser"
-	UserService_SignUp_FullMethodName     = "/service.UserService/SignUp"
-	UserService_SignIn_FullMethodName     = "/service.UserService/SignIn"
+	UserService_CreateUser_FullMethodName        = "/service.UserService/CreateUser"
+	UserService_CheckAuth_FullMethodName         = "/service.UserService/CheckAuth"
+	UserService_UserBy_FullMethodName            = "/service.UserService/UserBy"
+	UserService_UpdateUser_FullMethodName        = "/service.UserService/UpdateUser"
+	UserService_VerifyUserByPhone_FullMethodName = "/service.UserService/VerifyUserByPhone"
+	UserService_SignUp_FullMethodName            = "/service.UserService/SignUp"
+	UserService_SignIn_FullMethodName            = "/service.UserService/SignIn"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -37,6 +38,7 @@ type UserServiceClient interface {
 	CheckAuth(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*User, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
+	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	// SignInRequest
 	SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*TokenResponse, error)
@@ -90,6 +92,16 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 	return out, nil
 }
 
+func (c *userServiceClient) VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TokenResponse)
+	err := c.cc.Invoke(ctx, UserService_VerifyUserByPhone_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SignUpResponse)
@@ -120,6 +132,7 @@ type UserServiceServer interface {
 	CheckAuth(context.Context, *TokenRequest) (*User, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
+	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	// SignInRequest
 	SignIn(context.Context, *SignInRequest) (*TokenResponse, error)
@@ -144,6 +157,9 @@ func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*Use
 }
 func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUserServiceServer) VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyUserByPhone not implemented")
 }
 func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
@@ -244,6 +260,24 @@ func _UserService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_VerifyUserByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyByPhoneRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).VerifyUserByPhone(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_VerifyUserByPhone_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).VerifyUserByPhone(ctx, req.(*VerifyByPhoneRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_SignUp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SignUpRequest)
 	if err := dec(in); err != nil {
@@ -302,6 +336,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUser",
 			Handler:    _UserService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "VerifyUserByPhone",
+			Handler:    _UserService_VerifyUserByPhone_Handler,
 		},
 		{
 			MethodName: "SignUp",

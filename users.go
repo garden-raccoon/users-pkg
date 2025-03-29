@@ -43,6 +43,7 @@ type IUserAPI interface {
 	// SignInByPhone is
 	SignInByPhone(phone string, password []byte) ([]byte, error)
 
+	VerifyUserByPhone(phone, checkPhrase string) ([]byte, error)
 	HealthCheck() error
 
 	// Close GRPC Api connection
@@ -158,6 +159,21 @@ func (api *UsersAPI) SignUpByPhone(phone string, password []byte) (*models.SignU
 	signUpResp := &models.SignUpResponse{UserUUID: uuid.FromBytesOrNil(resp.UserUuid)}
 
 	return signUpResp, nil
+}
+
+func (api *UsersAPI) VerifyUserByPhone(phone, checkPhrase string) ([]byte, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	opts := &proto.VerifyByPhoneRequest{
+		Phone:       phone,
+		CheckPhrase: checkPhrase,
+	}
+	resp, err := api.UserServiceClient.VerifyUserByPhone(ctx, opts)
+	if err != nil {
+		return nil, fmt.Errorf("verifying user by phone failed: %w", err)
+	}
+
+	return resp.Token, nil
 }
 
 // SignInByPhone is
