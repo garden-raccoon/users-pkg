@@ -15,9 +15,23 @@ service UserService {
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
     rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
+
+    rpc ResetPassword (ResetPasswordRequest) returns (UserEmpty);
+
+    rpc UpdatePassword (UpdatePasswordRequest) returns (UserEmpty);
     // SignInRequest
     rpc SignIn(SignInRequest) returns(TokenResponse);
 
+}
+
+
+message ResetPasswordRequest {
+    string  phone   = 1;
+}
+
+message UpdatePasswordRequest {
+    bytes   password    = 1;
+    bytes   user_uuid        = 2;
 }
 
 message UpdateUserRequest {

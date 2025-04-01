@@ -40,6 +40,10 @@ type IUserAPI interface {
 	// SignUpByPhone is
 	SignUpByPhone(phone string, password []byte) (*models.SignUpResponse, error)
 
+	ResetPassword(phone string) error
+
+	UpdatePassword(userUUID uuid.UUID, password []byte) error
+
 	// SignInByPhone is
 	SignInByPhone(phone string, password []byte) ([]byte, error)
 
@@ -99,6 +103,34 @@ func (api *UsersAPI) initConn(addr string) (err error) {
 	}
 	return
 }
+
+func (api *UsersAPI) ResetPassword(phone string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+
+	_, err := api.UserServiceClient.ResetPassword(ctx, &proto.ResetPasswordRequest{Phone: phone})
+	if err != nil {
+		return fmt.Errorf("resetPassword api request: %w", err)
+	}
+
+	return nil
+}
+func (api *UsersAPI) UpdatePassword(userUUID uuid.UUID, password []byte) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+
+	req := &proto.UpdatePasswordRequest{
+		UserUuid: userUUID.Bytes(),
+		Password: password,
+	}
+
+	_, err := api.UserServiceClient.UpdatePassword(ctx, req)
+	if err != nil {
+		return fmt.Errorf("updatePassword api request: %w", err)
+	}
+	return nil
+}
+
 func (api *UsersAPI) CheckAuth(token []byte) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
