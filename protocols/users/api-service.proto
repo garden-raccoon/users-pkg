@@ -42,7 +42,7 @@ message UpdateUserRequest {
     string      first_name                 = 5;
     string      last_name                  = 6;
     string      avatar                     = 7;
-    repeated string addresses              = 8;
+    models.Addresses   addresses              = 8;
     string          phone                  = 9;
 }
 message SignUpResponse{

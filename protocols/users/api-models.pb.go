@@ -31,7 +31,7 @@ type User struct {
 	FirstName        string                 `protobuf:"bytes,5,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName         string                 `protobuf:"bytes,6,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
 	Avatar           string                 `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar,omitempty"`
-	Addresses        []string               `protobuf:"bytes,8,rep,name=addresses,proto3" json:"addresses,omitempty"`
+	Addresses        *Addresses             `protobuf:"bytes,8,opt,name=addresses,proto3" json:"addresses,omitempty"`
 	Phone            string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -116,7 +116,7 @@ func (x *User) GetAvatar() string {
 	return ""
 }
 
-func (x *User) GetAddresses() []string {
+func (x *User) GetAddresses() *Addresses {
 	if x != nil {
 		return x.Addresses
 	}
@@ -130,11 +130,115 @@ func (x *User) GetPhone() string {
 	return ""
 }
 
+type Address struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	City          string                 `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
+	Street        string                 `protobuf:"bytes,2,opt,name=street,proto3" json:"street,omitempty"`
+	Gps           string                 `protobuf:"bytes,3,opt,name=gps,proto3" json:"gps,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Address) Reset() {
+	*x = Address{}
+	mi := &file_api_models_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Address) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Address) ProtoMessage() {}
+
+func (x *Address) ProtoReflect() protoreflect.Message {
+	mi := &file_api_models_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Address.ProtoReflect.Descriptor instead.
+func (*Address) Descriptor() ([]byte, []int) {
+	return file_api_models_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Address) GetCity() string {
+	if x != nil {
+		return x.City
+	}
+	return ""
+}
+
+func (x *Address) GetStreet() string {
+	if x != nil {
+		return x.Street
+	}
+	return ""
+}
+
+func (x *Address) GetGps() string {
+	if x != nil {
+		return x.Gps
+	}
+	return ""
+}
+
+type Addresses struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Addresses     []*Address             `protobuf:"bytes,1,rep,name=Addresses,proto3" json:"Addresses,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Addresses) Reset() {
+	*x = Addresses{}
+	mi := &file_api_models_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Addresses) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Addresses) ProtoMessage() {}
+
+func (x *Addresses) ProtoReflect() protoreflect.Message {
+	mi := &file_api_models_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Addresses.ProtoReflect.Descriptor instead.
+func (*Addresses) Descriptor() ([]byte, []int) {
+	return file_api_models_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Addresses) GetAddresses() []*Address {
+	if x != nil {
+		return x.Addresses
+	}
+	return nil
+}
+
 var File_api_models_proto protoreflect.FileDescriptor
 
 const file_api_models_proto_rawDesc = "" +
 	"\n" +
-	"\x10api-models.proto\x12\x06models\"\x8a\x02\n" +
+	"\x10api-models.proto\x12\x06models\"\x9d\x02\n" +
 	"\x04User\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -143,9 +247,15 @@ const file_api_models_proto_rawDesc = "" +
 	"\n" +
 	"first_name\x18\x05 \x01(\tR\tfirstName\x12\x1b\n" +
 	"\tlast_name\x18\x06 \x01(\tR\blastName\x12\x16\n" +
-	"\x06avatar\x18\a \x01(\tR\x06avatar\x12\x1c\n" +
-	"\taddresses\x18\b \x03(\tR\taddresses\x12\x14\n" +
-	"\x05phone\x18\t \x01(\tR\x05phoneB\x11Z\x0fprotocols/usersb\x06proto3"
+	"\x06avatar\x18\a \x01(\tR\x06avatar\x12/\n" +
+	"\taddresses\x18\b \x01(\v2\x11.models.AddressesR\taddresses\x12\x14\n" +
+	"\x05phone\x18\t \x01(\tR\x05phone\"G\n" +
+	"\aAddress\x12\x12\n" +
+	"\x04city\x18\x01 \x01(\tR\x04city\x12\x16\n" +
+	"\x06street\x18\x02 \x01(\tR\x06street\x12\x10\n" +
+	"\x03gps\x18\x03 \x01(\tR\x03gps\":\n" +
+	"\tAddresses\x12-\n" +
+	"\tAddresses\x18\x01 \x03(\v2\x0f.models.AddressR\tAddressesB\x11Z\x0fprotocols/usersb\x06proto3"
 
 var (
 	file_api_models_proto_rawDescOnce sync.Once
@@ -159,16 +269,20 @@ func file_api_models_proto_rawDescGZIP() []byte {
 	return file_api_models_proto_rawDescData
 }
 
-var file_api_models_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_models_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_api_models_proto_goTypes = []any{
-	(*User)(nil), // 0: models.User
+	(*User)(nil),      // 0: models.User
+	(*Address)(nil),   // 1: models.Address
+	(*Addresses)(nil), // 2: models.Addresses
 }
 var file_api_models_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: models.User.addresses:type_name -> models.Addresses
+	1, // 1: models.Addresses.Addresses:type_name -> models.Address
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_api_models_proto_init() }
@@ -182,7 +296,7 @@ func file_api_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_models_proto_rawDesc), len(file_api_models_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

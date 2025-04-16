@@ -15,8 +15,14 @@ type User struct {
 	LastName         string
 	Avatar           string
 	ValidationStatus int
-	Addresses        []string
+	Addresses        []*Address
 }
+type Address struct {
+	Street string
+	City   string
+	Gps    string
+}
+
 type SignUpResponse struct {
 	UserUUID uuid.UUID
 }
@@ -29,7 +35,7 @@ type UpdateUserRequest struct {
 	FirstName        *string
 	LastName         *string
 	Avatar           *string
-	Addresses        []string
+	Addresses        []*Address
 }
 
 // UserFromProto is
@@ -78,7 +84,8 @@ func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
 		fields.Avatar = *u.Avatar
 	}
 	if u.Addresses != nil {
-		fields.Addresses = u.Addresses
+		fields.Addresses = convertToProtoAddresses(u.Addresses)
+
 	}
 
 	if u.ValidationStatus != nil {
@@ -86,6 +93,34 @@ func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
 	}
 
 	return fields
+}
+func addressToProto(address *Address) *proto.Address {
+	return &proto.Address{
+		City:   address.City,
+		Street: address.Street,
+		Gps:    address.Gps,
+	}
+}
+func addressFromProto(address *proto.Address) *Address {
+	return &Address{
+		City:   address.City,
+		Street: address.Street,
+		Gps:    address.Gps,
+	}
+}
+func convertToProtoAddresses(a []*Address) *proto.Addresses {
+	protoAddresses := &proto.Addresses{}
+	for _, address := range a {
+		protoAddresses.Addresses = append(protoAddresses.Addresses, addressToProto(address))
+	}
+	return protoAddresses
+}
+func converFromProtoAddresses(pb *proto.Addresses) []*Address {
+	var addresses []*Address
+	for _, a := range pb.Addresses {
+		addresses = append(addresses, addressFromProto(a))
+	}
+	return addresses
 }
 
 // UpdateUserRequestFromProto is
@@ -116,7 +151,7 @@ func UpdateUserRequestFromProto(pb *proto.UpdateUserRequest) *UpdateUserRequest 
 	}
 
 	if pb.Addresses != nil {
-		req.Addresses = pb.Addresses
+		req.Addresses = converFromProtoAddresses(pb.Addresses)
 	}
 	if pb.ValidationStatus != 0 {
 		req.ValidationStatus = int64ToPtrInt(pb.ValidationStatus)

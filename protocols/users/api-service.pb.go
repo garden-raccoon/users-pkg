@@ -126,7 +126,7 @@ type UpdateUserRequest struct {
 	FirstName        string                 `protobuf:"bytes,5,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
 	LastName         string                 `protobuf:"bytes,6,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
 	Avatar           string                 `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar,omitempty"`
-	Addresses        []string               `protobuf:"bytes,8,rep,name=addresses,proto3" json:"addresses,omitempty"`
+	Addresses        *Addresses             `protobuf:"bytes,8,opt,name=addresses,proto3" json:"addresses,omitempty"`
 	Phone            string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -211,7 +211,7 @@ func (x *UpdateUserRequest) GetAvatar() string {
 	return ""
 }
 
-func (x *UpdateUserRequest) GetAddresses() []string {
+func (x *UpdateUserRequest) GetAddresses() *Addresses {
 	if x != nil {
 		return x.Addresses
 	}
@@ -735,7 +735,7 @@ const file_api_service_proto_rawDesc = "" +
 	"\x05phone\x18\x01 \x01(\tR\x05phone\"P\n" +
 	"\x15UpdatePasswordRequest\x12\x1a\n" +
 	"\bpassword\x18\x01 \x01(\fR\bpassword\x12\x1b\n" +
-	"\tuser_uuid\x18\x02 \x01(\fR\buserUuid\"\x97\x02\n" +
+	"\tuser_uuid\x18\x02 \x01(\fR\buserUuid\"\xaa\x02\n" +
 	"\x11UpdateUserRequest\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -744,8 +744,8 @@ const file_api_service_proto_rawDesc = "" +
 	"\n" +
 	"first_name\x18\x05 \x01(\tR\tfirstName\x12\x1b\n" +
 	"\tlast_name\x18\x06 \x01(\tR\blastName\x12\x16\n" +
-	"\x06avatar\x18\a \x01(\tR\x06avatar\x12\x1c\n" +
-	"\taddresses\x18\b \x03(\tR\taddresses\x12\x14\n" +
+	"\x06avatar\x18\a \x01(\tR\x06avatar\x12/\n" +
+	"\taddresses\x18\b \x01(\v2\x11.models.AddressesR\taddresses\x12\x14\n" +
 	"\x05phone\x18\t \x01(\tR\x05phone\"-\n" +
 	"\x0eSignUpResponse\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\"O\n" +
@@ -813,32 +813,34 @@ var file_api_service_proto_goTypes = []any{
 	(*TokenRequest)(nil),          // 8: service.TokenRequest
 	(*TokenResponse)(nil),         // 9: service.TokenResponse
 	(*UserGetter)(nil),            // 10: service.UserGetter
-	(*User)(nil),                  // 11: models.User
+	(*Addresses)(nil),             // 11: models.Addresses
+	(*User)(nil),                  // 12: models.User
 }
 var file_api_service_proto_depIdxs = []int32{
-	11, // 0: service.UserService.CreateUser:input_type -> models.User
-	8,  // 1: service.UserService.CheckAuth:input_type -> service.TokenRequest
-	10, // 2: service.UserService.UserBy:input_type -> service.UserGetter
-	2,  // 3: service.UserService.UpdateUser:input_type -> service.UpdateUserRequest
-	4,  // 4: service.UserService.VerifyUserByPhone:input_type -> service.VerifyByPhoneRequest
-	5,  // 5: service.UserService.SignUp:input_type -> service.SignUpRequest
-	0,  // 6: service.UserService.ResetPassword:input_type -> service.ResetPasswordRequest
-	1,  // 7: service.UserService.UpdatePassword:input_type -> service.UpdatePasswordRequest
-	6,  // 8: service.UserService.SignIn:input_type -> service.SignInRequest
-	7,  // 9: service.UserService.CreateUser:output_type -> service.UserEmpty
-	11, // 10: service.UserService.CheckAuth:output_type -> models.User
-	11, // 11: service.UserService.UserBy:output_type -> models.User
-	11, // 12: service.UserService.UpdateUser:output_type -> models.User
-	9,  // 13: service.UserService.VerifyUserByPhone:output_type -> service.TokenResponse
-	3,  // 14: service.UserService.SignUp:output_type -> service.SignUpResponse
-	7,  // 15: service.UserService.ResetPassword:output_type -> service.UserEmpty
-	7,  // 16: service.UserService.UpdatePassword:output_type -> service.UserEmpty
-	9,  // 17: service.UserService.SignIn:output_type -> service.TokenResponse
-	9,  // [9:18] is the sub-list for method output_type
-	0,  // [0:9] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	11, // 0: service.UpdateUserRequest.addresses:type_name -> models.Addresses
+	12, // 1: service.UserService.CreateUser:input_type -> models.User
+	8,  // 2: service.UserService.CheckAuth:input_type -> service.TokenRequest
+	10, // 3: service.UserService.UserBy:input_type -> service.UserGetter
+	2,  // 4: service.UserService.UpdateUser:input_type -> service.UpdateUserRequest
+	4,  // 5: service.UserService.VerifyUserByPhone:input_type -> service.VerifyByPhoneRequest
+	5,  // 6: service.UserService.SignUp:input_type -> service.SignUpRequest
+	0,  // 7: service.UserService.ResetPassword:input_type -> service.ResetPasswordRequest
+	1,  // 8: service.UserService.UpdatePassword:input_type -> service.UpdatePasswordRequest
+	6,  // 9: service.UserService.SignIn:input_type -> service.SignInRequest
+	7,  // 10: service.UserService.CreateUser:output_type -> service.UserEmpty
+	12, // 11: service.UserService.CheckAuth:output_type -> models.User
+	12, // 12: service.UserService.UserBy:output_type -> models.User
+	12, // 13: service.UserService.UpdateUser:output_type -> models.User
+	9,  // 14: service.UserService.VerifyUserByPhone:output_type -> service.TokenResponse
+	3,  // 15: service.UserService.SignUp:output_type -> service.SignUpResponse
+	7,  // 16: service.UserService.ResetPassword:output_type -> service.UserEmpty
+	7,  // 17: service.UserService.UpdatePassword:output_type -> service.UserEmpty
+	9,  // 18: service.UserService.SignIn:output_type -> service.TokenResponse
+	10, // [10:19] is the sub-list for method output_type
+	1,  // [1:10] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_api_service_proto_init() }
