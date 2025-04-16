@@ -39,14 +39,6 @@ type UpdateUserRequest struct {
 }
 
 // UserFromProto is
-func UserFromProto(pb *proto.User) *User {
-	return &User{
-		UserUUID: uuid.FromBytesOrNil(pb.UserUuid),
-		Email:    pb.Email,
-		Username: pb.Username,
-		Phone:    pb.Phone,
-	}
-}
 
 func (u User) Proto() *proto.User {
 	user := &proto.User{
@@ -115,7 +107,7 @@ func convertToProtoAddresses(a []*Address) *proto.Addresses {
 	}
 	return protoAddresses
 }
-func converFromProtoAddresses(pb *proto.Addresses) []*Address {
+func convertFromProtoAddresses(pb *proto.Addresses) []*Address {
 	var addresses []*Address
 	for _, a := range pb.Addresses {
 		addresses = append(addresses, addressFromProto(a))
@@ -151,14 +143,44 @@ func UpdateUserRequestFromProto(pb *proto.UpdateUserRequest) *UpdateUserRequest 
 	}
 
 	if pb.Addresses != nil {
-		req.Addresses = converFromProtoAddresses(pb.Addresses)
+		req.Addresses = convertFromProtoAddresses(pb.Addresses)
 	}
 	if pb.ValidationStatus != 0 {
 		req.ValidationStatus = int64ToPtrInt(pb.ValidationStatus)
 	}
 	return req
 }
+func UserFromProto(pb *proto.User) *User {
+	req := &User{
+		UserUUID: uuid.FromBytesOrNil(pb.UserUuid),
+	}
+	if pb.Email != "" {
+		req.Email = pb.Email
+	}
 
+	if pb.Username != "" {
+		req.Username = pb.Username
+	}
+
+	if pb.FirstName != "" {
+		req.FirstName = pb.FirstName
+	}
+
+	if pb.LastName != "" {
+		req.LastName = pb.LastName
+	}
+	if pb.Avatar != "" {
+		req.Avatar = pb.Avatar
+	}
+	if pb.Phone != "" {
+		req.Phone = pb.Phone
+	}
+
+	if pb.Addresses != nil {
+		req.Addresses = convertFromProtoAddresses(pb.Addresses)
+	}
+	return req
+}
 func int64ToPtrInt(status int64) *int {
 	toIntPtr := int(status)
 	return &toIntPtr
