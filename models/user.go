@@ -42,10 +42,14 @@ type UpdateUserRequest struct {
 
 func (u User) Proto() *proto.User {
 	user := &proto.User{
-		UserUuid: u.UserUUID.Bytes(),
-		Username: u.Username,
-		Email:    u.Email,
-		Phone:    u.Phone,
+		UserUuid:  u.UserUUID.Bytes(),
+		Username:  u.Username,
+		Email:     u.Email,
+		FirstName: u.FirstName,
+		LastName:  u.LastName,
+		Avatar:    u.Avatar,
+		Addresses: convertToProtoAddresses(u.Addresses),
+		Phone:     u.Phone,
 	}
 	return user
 }
