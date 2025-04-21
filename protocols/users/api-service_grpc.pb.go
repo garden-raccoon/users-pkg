@@ -25,6 +25,8 @@ const (
 	UserService_GetIsAdmin_FullMethodName        = "/service.UserService/GetIsAdmin"
 	UserService_UserBy_FullMethodName            = "/service.UserService/UserBy"
 	UserService_UpdateUser_FullMethodName        = "/service.UserService/UpdateUser"
+	UserService_UpdateAddress_FullMethodName     = "/service.UserService/UpdateAddress"
+	UserService_AddAddress_FullMethodName        = "/service.UserService/AddAddress"
 	UserService_VerifyUserByPhone_FullMethodName = "/service.UserService/VerifyUserByPhone"
 	UserService_SignUp_FullMethodName            = "/service.UserService/SignUp"
 	UserService_ResetPassword_FullMethodName     = "/service.UserService/ResetPassword"
@@ -44,6 +46,8 @@ type UserServiceClient interface {
 	GetIsAdmin(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
+	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*User, error)
+	AddAddress(ctx context.Context, in *AddAddressesRequest, opts ...grpc.CallOption) (*User, error)
 	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*UserEmpty, error)
@@ -120,6 +124,26 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 	return out, nil
 }
 
+func (c *userServiceClient) UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_UpdateAddress_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddAddress(ctx context.Context, in *AddAddressesRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_AddAddress_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TokenResponse)
@@ -182,6 +206,8 @@ type UserServiceServer interface {
 	GetIsAdmin(context.Context, *TokenRequest) (*IsAdminResponse, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
+	UpdateAddress(context.Context, *UpdateAddressRequest) (*User, error)
+	AddAddress(context.Context, *AddAddressesRequest) (*User, error)
 	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	ResetPassword(context.Context, *ResetPasswordRequest) (*UserEmpty, error)
@@ -215,6 +241,12 @@ func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*Use
 }
 func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateAddress(context.Context, *UpdateAddressRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
+}
+func (UnimplementedUserServiceServer) AddAddress(context.Context, *AddAddressesRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
 }
 func (UnimplementedUserServiceServer) VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyUserByPhone not implemented")
@@ -360,6 +392,42 @@ func _UserService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateAddress(ctx, req.(*UpdateAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAddressesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddAddress(ctx, req.(*AddAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_VerifyUserByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyByPhoneRequest)
 	if err := dec(in); err != nil {
@@ -480,6 +548,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUser",
 			Handler:    _UserService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "UpdateAddress",
+			Handler:    _UserService_UpdateAddress_Handler,
+		},
+		{
+			MethodName: "AddAddress",
+			Handler:    _UserService_AddAddress_Handler,
 		},
 		{
 			MethodName: "VerifyUserByPhone",

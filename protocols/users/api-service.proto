@@ -15,6 +15,9 @@ service UserService {
     rpc UserBy(UserGetter) returns(models.User);
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
+    rpc UpdateAddress(UpdateAddressRequest) returns(models.User);
+    rpc AddAddress(AddAddressesRequest) returns(models.User);
+
     rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
 
@@ -52,6 +55,14 @@ message UpdateUserRequest {
     string      avatar                     = 7;
     models.Addresses   addresses              = 8;
     string          phone                  = 9;
+}
+message AddAddressesRequest{
+    bytes       user_uuid                  = 1;
+    models.Addresses   addresses       = 2;
+}
+message UpdateAddressRequest{
+    bytes       user_uuid                  = 1;
+    models.Address address = 2;
 }
 message SignUpResponse{
     bytes user_uuid = 1;

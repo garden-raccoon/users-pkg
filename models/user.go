@@ -39,6 +39,15 @@ type UpdateUserRequest struct {
 	Addresses        []*Address
 }
 
+type AddAddressRequest struct {
+	UserUUID  uuid.UUID
+	Addresses []*Address
+}
+type UpdateAddressRequest struct {
+	UserUUID uuid.UUID
+	Address  *Address
+}
+
 // UserFromProto is
 
 func (u User) Proto() *proto.User {
@@ -53,6 +62,23 @@ func (u User) Proto() *proto.User {
 		Phone:     u.Phone,
 	}
 	return user
+}
+func AddAddressToProto(u AddAddressRequest) *proto.AddAddressesRequest {
+	fields := &proto.AddAddressesRequest{UserUuid: u.UserUUID.Bytes()}
+
+	if u.Addresses != nil {
+		fields.Addresses = convertToProtoAddresses(u.Addresses)
+
+	}
+	return fields
+}
+func UpdateAddressToProto(u UpdateAddressRequest) *proto.UpdateAddressRequest {
+	fields := &proto.UpdateAddressRequest{UserUuid: u.UserUUID.Bytes()}
+	if u.Address != nil {
+		fields.Address = addressToProto(u.Address)
+
+	}
+	return fields
 }
 
 // Proto is

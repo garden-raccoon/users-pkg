@@ -32,8 +32,10 @@ type IUserAPI interface {
 
 	UserByEmail(email string) (*models.User, error)
 
-	UpdateUser(user *models.UpdateUserRequest) (*models.User, error)
+	UpdateUser(user models.UpdateUserRequest) (*models.User, error)
 
+	UpdateAddress(user models.UpdateAddressRequest) (*models.User, error)
+	AddAddress(user models.AddAddressRequest) (*models.User, error)
 	// SignUpByEmail is
 	SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error)
 
@@ -81,13 +83,33 @@ func New(addr string, timeout time.Duration) (IUserAPI, error) {
 	return api, nil
 }
 
-func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, error) {
+func (api *UsersAPI) UpdateUser(user models.UpdateUserRequest) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
-	protoUser := models.Proto(*user)
+	protoUser := models.Proto(user)
 	resp, err := api.UserServiceClient.UpdateUser(ctx, protoUser)
 	if err != nil {
 		return nil, fmt.Errorf("updateUser api request: %w", err)
+	}
+	return models.UserFromProto(resp), nil
+}
+func (api *UsersAPI) UpdateAddress(user models.UpdateAddressRequest) (*models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	protoUser := models.UpdateAddressToProto(user)
+	resp, err := api.UserServiceClient.UpdateAddress(ctx, protoUser)
+	if err != nil {
+		return nil, fmt.Errorf("UpdateAddress api request: %w", err)
+	}
+	return models.UserFromProto(resp), nil
+}
+func (api *UsersAPI) AddAddress(user models.AddAddressRequest) (*models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	protoUser := models.AddAddressToProto(user)
+	resp, err := api.UserServiceClient.AddAddress(ctx, protoUser)
+	if err != nil {
+		return nil, fmt.Errorf("AddAddress api request: %w", err)
 	}
 	return models.UserFromProto(resp), nil
 }
