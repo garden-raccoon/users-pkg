@@ -11,7 +11,7 @@ service UserService {
 
     rpc CheckAuth(TokenRequest) returns(models.User);
     rpc GetUserRoles(TokenRequest) returns(UserRolesResponse);
-
+    rpc GetIsAdmin(TokenRequest) returns(IsAdminResponse);
     rpc UserBy(UserGetter) returns(models.User);
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
@@ -26,6 +26,9 @@ service UserService {
 
 }
 
+message IsAdminResponse{
+    bool isAdmin = 1;
+}
 message UserRolesResponse {
     repeated string user_roles = 1;
 }

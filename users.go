@@ -24,6 +24,7 @@ type IUserAPI interface {
 
 	GetUserRoles(token []byte) (roles []string, err error)
 
+	GetIsAdmin(token []byte) (bool, error)
 	// UserByUUID is
 	UserByUUID(userUUID uuid.UUID) (*models.User, error)
 
@@ -91,7 +92,7 @@ func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, e
 	return models.UserFromProto(resp), nil
 }
 
-func (api *UsersAPI) GetUserRoles(token []byte) (roles []string, err error) {
+func (api *UsersAPI) GetUserRoles(token []byte) ([]string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	protoToken := &proto.TokenRequest{Token: token}
@@ -100,6 +101,16 @@ func (api *UsersAPI) GetUserRoles(token []byte) (roles []string, err error) {
 		return nil, fmt.Errorf("GetUserRoles api request: %w", err)
 	}
 	return resp.UserRoles, nil
+}
+func (api *UsersAPI) GetIsAdmin(token []byte) (bool, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	protoToken := &proto.TokenRequest{Token: token}
+	resp, err := api.UserServiceClient.GetIsAdmin(ctx, protoToken)
+	if err != nil {
+		return false, fmt.Errorf("GetIsAdmin api request: %w", err)
+	}
+	return resp.IsAdmin, nil
 }
 
 // initConn initialize connection to Grpc servers

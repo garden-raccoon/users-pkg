@@ -22,6 +22,7 @@ const (
 	UserService_CreateUser_FullMethodName        = "/service.UserService/CreateUser"
 	UserService_CheckAuth_FullMethodName         = "/service.UserService/CheckAuth"
 	UserService_GetUserRoles_FullMethodName      = "/service.UserService/GetUserRoles"
+	UserService_GetIsAdmin_FullMethodName        = "/service.UserService/GetIsAdmin"
 	UserService_UserBy_FullMethodName            = "/service.UserService/UserBy"
 	UserService_UpdateUser_FullMethodName        = "/service.UserService/UpdateUser"
 	UserService_VerifyUserByPhone_FullMethodName = "/service.UserService/VerifyUserByPhone"
@@ -40,6 +41,7 @@ type UserServiceClient interface {
 	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserEmpty, error)
 	CheckAuth(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*User, error)
 	GetUserRoles(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*UserRolesResponse, error)
+	GetIsAdmin(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
@@ -82,6 +84,16 @@ func (c *userServiceClient) GetUserRoles(ctx context.Context, in *TokenRequest, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserRolesResponse)
 	err := c.cc.Invoke(ctx, UserService_GetUserRoles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetIsAdmin(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*IsAdminResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsAdminResponse)
+	err := c.cc.Invoke(ctx, UserService_GetIsAdmin_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -167,6 +179,7 @@ type UserServiceServer interface {
 	CreateUser(context.Context, *User) (*UserEmpty, error)
 	CheckAuth(context.Context, *TokenRequest) (*User, error)
 	GetUserRoles(context.Context, *TokenRequest) (*UserRolesResponse, error)
+	GetIsAdmin(context.Context, *TokenRequest) (*IsAdminResponse, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
@@ -193,6 +206,9 @@ func (UnimplementedUserServiceServer) CheckAuth(context.Context, *TokenRequest) 
 }
 func (UnimplementedUserServiceServer) GetUserRoles(context.Context, *TokenRequest) (*UserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
+}
+func (UnimplementedUserServiceServer) GetIsAdmin(context.Context, *TokenRequest) (*IsAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetIsAdmin not implemented")
 }
 func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserBy not implemented")
@@ -286,6 +302,24 @@ func _UserService_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetUserRoles(ctx, req.(*TokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetIsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetIsAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetIsAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetIsAdmin(ctx, req.(*TokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -434,6 +468,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserRoles",
 			Handler:    _UserService_GetUserRoles_Handler,
+		},
+		{
+			MethodName: "GetIsAdmin",
+			Handler:    _UserService_GetIsAdmin_Handler,
 		},
 		{
 			MethodName: "UserBy",
