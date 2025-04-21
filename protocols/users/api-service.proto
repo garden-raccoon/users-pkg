@@ -47,6 +47,7 @@ message UpdatePasswordRequest {
 }
 message DeleteAddressRequest{
     bytes  address_uuid  = 1;
+    bytes user_uuid = 2;
 }
 message UpdateUserRequest {
     bytes       user_uuid                  = 1;

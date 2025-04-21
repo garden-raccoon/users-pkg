@@ -36,6 +36,7 @@ type IUserAPI interface {
 
 	UpdateAddress(user *models.UpdateAddressRequest) (*models.User, error)
 	AddAddresses(user *models.AddAddressRequest) (*models.User, error)
+	DeleteAddress(addrUuid, userUuid uuid.UUID) error
 	// SignUpByEmail is
 	SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error)
 
@@ -324,11 +325,12 @@ func (api *UsersAPI) getUser(opts *proto.UserGetter) (*models.User, error) {
 
 	return models.UserFromProto(resp), nil
 }
-func (api *UsersAPI) DeleteAddress(addrUuid uuid.UUID) error {
+func (api *UsersAPI) DeleteAddress(addrUuid, userUuid uuid.UUID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	req := &proto.DeleteAddressRequest{
 		AddressUuid: addrUuid.Bytes(),
+		UserUuid:    userUuid.Bytes(),
 	}
 	_, err := api.UserServiceClient.DeleteAddress(ctx, req)
 	if err != nil {

@@ -208,6 +208,7 @@ func (x *UpdatePasswordRequest) GetUserUuid() []byte {
 type DeleteAddressRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AddressUuid   []byte                 `protobuf:"bytes,1,opt,name=address_uuid,json=addressUuid,proto3" json:"address_uuid,omitempty"`
+	UserUuid      []byte                 `protobuf:"bytes,2,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -245,6 +246,13 @@ func (*DeleteAddressRequest) Descriptor() ([]byte, []int) {
 func (x *DeleteAddressRequest) GetAddressUuid() []byte {
 	if x != nil {
 		return x.AddressUuid
+	}
+	return nil
+}
+
+func (x *DeleteAddressRequest) GetUserUuid() []byte {
+	if x != nil {
+		return x.UserUuid
 	}
 	return nil
 }
@@ -976,9 +984,10 @@ const file_api_service_proto_rawDesc = "" +
 	"\x05phone\x18\x01 \x01(\tR\x05phone\"P\n" +
 	"\x15UpdatePasswordRequest\x12\x1a\n" +
 	"\bpassword\x18\x01 \x01(\fR\bpassword\x12\x1b\n" +
-	"\tuser_uuid\x18\x02 \x01(\fR\buserUuid\"9\n" +
+	"\tuser_uuid\x18\x02 \x01(\fR\buserUuid\"V\n" +
 	"\x14DeleteAddressRequest\x12!\n" +
-	"\faddress_uuid\x18\x01 \x01(\fR\vaddressUuid\"\xaa\x02\n" +
+	"\faddress_uuid\x18\x01 \x01(\fR\vaddressUuid\x12\x1b\n" +
+	"\tuser_uuid\x18\x02 \x01(\fR\buserUuid\"\xaa\x02\n" +
 	"\x11UpdateUserRequest\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
