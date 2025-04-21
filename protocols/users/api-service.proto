@@ -16,7 +16,7 @@ service UserService {
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
     rpc UpdateAddress(UpdateAddressRequest) returns(models.User);
-    rpc AddAddress(AddAddressesRequest) returns(models.User);
+    rpc AddAddresses(AddAddressesRequest) returns(models.User);
 
     rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);

@@ -977,7 +977,7 @@ const file_api_service_proto_rawDesc = "" +
 	"\tuser_uuid\x18\x01 \x01(\fH\x00R\buserUuid\x12\x16\n" +
 	"\x05email\x18\x02 \x01(\tH\x00R\x05email\x12\x16\n" +
 	"\x05phone\x18\x03 \x01(\tH\x00R\x05phoneB\b\n" +
-	"\x06getter2\x99\x06\n" +
+	"\x06getter2\x9b\x06\n" +
 	"\vUserService\x12.\n" +
 	"\n" +
 	"CreateUser\x12\f.models.User\x1a\x12.service.UserEmpty\x120\n" +
@@ -988,9 +988,8 @@ const file_api_service_proto_rawDesc = "" +
 	"\x06UserBy\x12\x13.service.UserGetter\x1a\f.models.User\x126\n" +
 	"\n" +
 	"UpdateUser\x12\x1a.service.UpdateUserRequest\x1a\f.models.User\x12<\n" +
-	"\rUpdateAddress\x12\x1d.service.UpdateAddressRequest\x1a\f.models.User\x128\n" +
-	"\n" +
-	"AddAddress\x12\x1c.service.AddAddressesRequest\x1a\f.models.User\x12J\n" +
+	"\rUpdateAddress\x12\x1d.service.UpdateAddressRequest\x1a\f.models.User\x12:\n" +
+	"\fAddAddresses\x12\x1c.service.AddAddressesRequest\x1a\f.models.User\x12J\n" +
 	"\x11VerifyUserByPhone\x12\x1d.service.VerifyByPhoneRequest\x1a\x16.service.TokenResponse\x129\n" +
 	"\x06SignUp\x12\x16.service.SignUpRequest\x1a\x17.service.SignUpResponse\x12B\n" +
 	"\rResetPassword\x12\x1d.service.ResetPasswordRequest\x1a\x12.service.UserEmpty\x12D\n" +
@@ -1041,7 +1040,7 @@ var file_api_service_proto_depIdxs = []int32{
 	14, // 7: service.UserService.UserBy:input_type -> service.UserGetter
 	4,  // 8: service.UserService.UpdateUser:input_type -> service.UpdateUserRequest
 	6,  // 9: service.UserService.UpdateAddress:input_type -> service.UpdateAddressRequest
-	5,  // 10: service.UserService.AddAddress:input_type -> service.AddAddressesRequest
+	5,  // 10: service.UserService.AddAddresses:input_type -> service.AddAddressesRequest
 	8,  // 11: service.UserService.VerifyUserByPhone:input_type -> service.VerifyByPhoneRequest
 	9,  // 12: service.UserService.SignUp:input_type -> service.SignUpRequest
 	2,  // 13: service.UserService.ResetPassword:input_type -> service.ResetPasswordRequest
@@ -1054,7 +1053,7 @@ var file_api_service_proto_depIdxs = []int32{
 	17, // 20: service.UserService.UserBy:output_type -> models.User
 	17, // 21: service.UserService.UpdateUser:output_type -> models.User
 	17, // 22: service.UserService.UpdateAddress:output_type -> models.User
-	17, // 23: service.UserService.AddAddress:output_type -> models.User
+	17, // 23: service.UserService.AddAddresses:output_type -> models.User
 	13, // 24: service.UserService.VerifyUserByPhone:output_type -> service.TokenResponse
 	7,  // 25: service.UserService.SignUp:output_type -> service.SignUpResponse
 	11, // 26: service.UserService.ResetPassword:output_type -> service.UserEmpty

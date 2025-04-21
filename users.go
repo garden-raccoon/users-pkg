@@ -35,7 +35,7 @@ type IUserAPI interface {
 	UpdateUser(user *models.UpdateUserRequest) (*models.User, error)
 
 	UpdateAddress(user *models.UpdateAddressRequest) (*models.User, error)
-	AddAddress(user *models.AddAddressRequest) (*models.User, error)
+	AddAddresses(user *models.AddAddressRequest) (*models.User, error)
 	// SignUpByEmail is
 	SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error)
 
@@ -103,11 +103,11 @@ func (api *UsersAPI) UpdateAddress(user *models.UpdateAddressRequest) (*models.U
 	}
 	return models.UserFromProto(resp), nil
 }
-func (api *UsersAPI) AddAddress(user *models.AddAddressRequest) (*models.User, error) {
+func (api *UsersAPI) AddAddresses(user *models.AddAddressRequest) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	protoUser := models.AddAddressToProto(user)
-	resp, err := api.UserServiceClient.AddAddress(ctx, protoUser)
+	resp, err := api.UserServiceClient.AddAddresses(ctx, protoUser)
 	if err != nil {
 		return nil, fmt.Errorf("AddAddress api request: %w", err)
 	}
