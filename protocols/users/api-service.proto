@@ -18,6 +18,7 @@ service UserService {
     rpc UpdateAddress(UpdateAddressRequest) returns(models.User);
     rpc AddAddresses(AddAddressesRequest) returns(models.User);
 
+    rpc DeleteAddress(DeleteAddressRequest) returns(UserEmpty);
     rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
 
@@ -44,7 +45,9 @@ message UpdatePasswordRequest {
     bytes   password    = 1;
     bytes   user_uuid        = 2;
 }
-
+message DeleteAddressRequest{
+    bytes  address_uuid  = 1;
+}
 message UpdateUserRequest {
     bytes       user_uuid                  = 1;
     string      username                   = 2;

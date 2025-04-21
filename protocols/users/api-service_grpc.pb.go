@@ -27,6 +27,7 @@ const (
 	UserService_UpdateUser_FullMethodName        = "/service.UserService/UpdateUser"
 	UserService_UpdateAddress_FullMethodName     = "/service.UserService/UpdateAddress"
 	UserService_AddAddresses_FullMethodName      = "/service.UserService/AddAddresses"
+	UserService_DeleteAddress_FullMethodName     = "/service.UserService/DeleteAddress"
 	UserService_VerifyUserByPhone_FullMethodName = "/service.UserService/VerifyUserByPhone"
 	UserService_SignUp_FullMethodName            = "/service.UserService/SignUp"
 	UserService_ResetPassword_FullMethodName     = "/service.UserService/ResetPassword"
@@ -48,6 +49,7 @@ type UserServiceClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*User, error)
 	AddAddresses(ctx context.Context, in *AddAddressesRequest, opts ...grpc.CallOption) (*User, error)
+	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*UserEmpty, error)
 	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*UserEmpty, error)
@@ -144,6 +146,16 @@ func (c *userServiceClient) AddAddresses(ctx context.Context, in *AddAddressesRe
 	return out, nil
 }
 
+func (c *userServiceClient) DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*UserEmpty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserEmpty)
+	err := c.cc.Invoke(ctx, UserService_DeleteAddress_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TokenResponse)
@@ -208,6 +220,7 @@ type UserServiceServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*User, error)
 	AddAddresses(context.Context, *AddAddressesRequest) (*User, error)
+	DeleteAddress(context.Context, *DeleteAddressRequest) (*UserEmpty, error)
 	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	ResetPassword(context.Context, *ResetPasswordRequest) (*UserEmpty, error)
@@ -247,6 +260,9 @@ func (UnimplementedUserServiceServer) UpdateAddress(context.Context, *UpdateAddr
 }
 func (UnimplementedUserServiceServer) AddAddresses(context.Context, *AddAddressesRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAddresses not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteAddress(context.Context, *DeleteAddressRequest) (*UserEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAddress not implemented")
 }
 func (UnimplementedUserServiceServer) VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyUserByPhone not implemented")
@@ -428,6 +444,24 @@ func _UserService_AddAddresses_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_DeleteAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteAddress(ctx, req.(*DeleteAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_VerifyUserByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyByPhoneRequest)
 	if err := dec(in); err != nil {
@@ -556,6 +590,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddAddresses",
 			Handler:    _UserService_AddAddresses_Handler,
+		},
+		{
+			MethodName: "DeleteAddress",
+			Handler:    _UserService_DeleteAddress_Handler,
 		},
 		{
 			MethodName: "VerifyUserByPhone",

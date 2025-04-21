@@ -324,3 +324,15 @@ func (api *UsersAPI) getUser(opts *proto.UserGetter) (*models.User, error) {
 
 	return models.UserFromProto(resp), nil
 }
+func (api *UsersAPI) DeleteAddress(addrUuid uuid.UUID) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	req := &proto.DeleteAddressRequest{
+		AddressUuid: addrUuid.Bytes(),
+	}
+	_, err := api.UserServiceClient.DeleteAddress(ctx, req)
+	if err != nil {
+		return fmt.Errorf("DeleteAddress api request: %w", err)
+	}
+	return nil
+}
