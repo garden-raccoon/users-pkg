@@ -17,9 +17,10 @@ message User {
 }
 
 message Address {
-    string city = 1;
-    string street = 2;
-    string gps = 3;
+    bytes address_uuid = 1;
+    string city = 2;
+    string street = 3;
+    string gps = 4;
 }
 message Addresses{
     repeated Address Addresses = 1;

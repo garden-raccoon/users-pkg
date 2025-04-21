@@ -132,9 +132,10 @@ func (x *User) GetPhone() string {
 
 type Address struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	City          string                 `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
-	Street        string                 `protobuf:"bytes,2,opt,name=street,proto3" json:"street,omitempty"`
-	Gps           string                 `protobuf:"bytes,3,opt,name=gps,proto3" json:"gps,omitempty"`
+	AddressUuid   []byte                 `protobuf:"bytes,1,opt,name=address_uuid,json=addressUuid,proto3" json:"address_uuid,omitempty"`
+	City          string                 `protobuf:"bytes,2,opt,name=city,proto3" json:"city,omitempty"`
+	Street        string                 `protobuf:"bytes,3,opt,name=street,proto3" json:"street,omitempty"`
+	Gps           string                 `protobuf:"bytes,4,opt,name=gps,proto3" json:"gps,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -167,6 +168,13 @@ func (x *Address) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Address.ProtoReflect.Descriptor instead.
 func (*Address) Descriptor() ([]byte, []int) {
 	return file_api_models_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Address) GetAddressUuid() []byte {
+	if x != nil {
+		return x.AddressUuid
+	}
+	return nil
 }
 
 func (x *Address) GetCity() string {
@@ -249,11 +257,12 @@ const file_api_models_proto_rawDesc = "" +
 	"\tlast_name\x18\x06 \x01(\tR\blastName\x12\x16\n" +
 	"\x06avatar\x18\a \x01(\tR\x06avatar\x12/\n" +
 	"\taddresses\x18\b \x01(\v2\x11.models.AddressesR\taddresses\x12\x14\n" +
-	"\x05phone\x18\t \x01(\tR\x05phone\"G\n" +
-	"\aAddress\x12\x12\n" +
-	"\x04city\x18\x01 \x01(\tR\x04city\x12\x16\n" +
-	"\x06street\x18\x02 \x01(\tR\x06street\x12\x10\n" +
-	"\x03gps\x18\x03 \x01(\tR\x03gps\":\n" +
+	"\x05phone\x18\t \x01(\tR\x05phone\"j\n" +
+	"\aAddress\x12!\n" +
+	"\faddress_uuid\x18\x01 \x01(\fR\vaddressUuid\x12\x12\n" +
+	"\x04city\x18\x02 \x01(\tR\x04city\x12\x16\n" +
+	"\x06street\x18\x03 \x01(\tR\x06street\x12\x10\n" +
+	"\x03gps\x18\x04 \x01(\tR\x03gps\":\n" +
 	"\tAddresses\x12-\n" +
 	"\tAddresses\x18\x01 \x03(\v2\x0f.models.AddressR\tAddressesB\x11Z\x0fprotocols/usersb\x06proto3"
 

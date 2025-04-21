@@ -18,9 +18,10 @@ type User struct {
 	Addresses        []*Address
 }
 type Address struct {
-	Street string
-	City   string
-	Gps    string
+	AddressUUID uuid.UUID
+	Street      string
+	City        string
+	Gps         string
 }
 
 type SignUpResponse struct {
@@ -92,16 +93,18 @@ func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
 }
 func addressToProto(address *Address) *proto.Address {
 	return &proto.Address{
-		City:   address.City,
-		Street: address.Street,
-		Gps:    address.Gps,
+		AddressUuid: address.AddressUUID.Bytes(),
+		City:        address.City,
+		Street:      address.Street,
+		Gps:         address.Gps,
 	}
 }
 func addressFromProto(address *proto.Address) *Address {
 	return &Address{
-		City:   address.City,
-		Street: address.Street,
-		Gps:    address.Gps,
+		AddressUUID: uuid.FromBytesOrNil(address.AddressUuid),
+		City:        address.City,
+		Street:      address.Street,
+		Gps:         address.Gps,
 	}
 }
 func convertToProtoAddresses(a []*Address) *proto.Addresses {
