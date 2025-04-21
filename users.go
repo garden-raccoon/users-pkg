@@ -22,6 +22,8 @@ type IUserAPI interface {
 	// CheckAuth is
 	CheckAuth(token []byte) (*models.User, error)
 
+	GetUserRoles(token []byte) (roles []string, err error)
+
 	// UserByUUID is
 	UserByUUID(userUUID uuid.UUID) (*models.User, error)
 
@@ -87,6 +89,17 @@ func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, e
 		return nil, fmt.Errorf("updateUser api request: %w", err)
 	}
 	return models.UserFromProto(resp), nil
+}
+
+func (api *UsersAPI) GetUserRoles(token []byte) (roles []string, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	protoToken := &proto.TokenRequest{Token: token}
+	resp, err := api.UserServiceClient.GetUserRoles(ctx, protoToken)
+	if err != nil {
+		return nil, fmt.Errorf("GetUserRoles api request: %w", err)
+	}
+	return resp.UserRoles, nil
 }
 
 // initConn initialize connection to Grpc servers

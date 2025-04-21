@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	UserService_CreateUser_FullMethodName        = "/service.UserService/CreateUser"
 	UserService_CheckAuth_FullMethodName         = "/service.UserService/CheckAuth"
+	UserService_GetUserRoles_FullMethodName      = "/service.UserService/GetUserRoles"
 	UserService_UserBy_FullMethodName            = "/service.UserService/UserBy"
 	UserService_UpdateUser_FullMethodName        = "/service.UserService/UpdateUser"
 	UserService_VerifyUserByPhone_FullMethodName = "/service.UserService/VerifyUserByPhone"
@@ -38,6 +39,7 @@ const (
 type UserServiceClient interface {
 	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserEmpty, error)
 	CheckAuth(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*User, error)
+	GetUserRoles(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*UserRolesResponse, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
@@ -70,6 +72,16 @@ func (c *userServiceClient) CheckAuth(ctx context.Context, in *TokenRequest, opt
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, UserService_CheckAuth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetUserRoles(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*UserRolesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserRolesResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserRoles_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,6 +166,7 @@ func (c *userServiceClient) SignIn(ctx context.Context, in *SignInRequest, opts 
 type UserServiceServer interface {
 	CreateUser(context.Context, *User) (*UserEmpty, error)
 	CheckAuth(context.Context, *TokenRequest) (*User, error)
+	GetUserRoles(context.Context, *TokenRequest) (*UserRolesResponse, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
@@ -177,6 +190,9 @@ func (UnimplementedUserServiceServer) CreateUser(context.Context, *User) (*UserE
 }
 func (UnimplementedUserServiceServer) CheckAuth(context.Context, *TokenRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckAuth not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserRoles(context.Context, *TokenRequest) (*UserRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
 }
 func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserBy not implemented")
@@ -252,6 +268,24 @@ func _UserService_CheckAuth_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).CheckAuth(ctx, req.(*TokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserRoles(ctx, req.(*TokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -396,6 +430,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckAuth",
 			Handler:    _UserService_CheckAuth_Handler,
+		},
+		{
+			MethodName: "GetUserRoles",
+			Handler:    _UserService_GetUserRoles_Handler,
 		},
 		{
 			MethodName: "UserBy",

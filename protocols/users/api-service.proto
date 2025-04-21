@@ -10,6 +10,8 @@ service UserService {
     rpc CreateUser(models.User) returns(UserEmpty);
 
     rpc CheckAuth(TokenRequest) returns(models.User);
+    rpc GetUserRoles(TokenRequest) returns(UserRolesResponse);
+
     rpc UserBy(UserGetter) returns(models.User);
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
@@ -24,6 +26,9 @@ service UserService {
 
 }
 
+message UserRolesResponse {
+    repeated string user_roles = 1;
+}
 
 message ResetPasswordRequest {
     string  phone   = 1;
