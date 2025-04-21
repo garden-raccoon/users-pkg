@@ -32,10 +32,10 @@ type IUserAPI interface {
 
 	UserByEmail(email string) (*models.User, error)
 
-	UpdateUser(user models.UpdateUserRequest) (*models.User, error)
+	UpdateUser(user *models.UpdateUserRequest) (*models.User, error)
 
-	UpdateAddress(user models.UpdateAddressRequest) (*models.User, error)
-	AddAddress(user models.AddAddressRequest) (*models.User, error)
+	UpdateAddress(user *models.UpdateAddressRequest) (*models.User, error)
+	AddAddress(user *models.AddAddressRequest) (*models.User, error)
 	// SignUpByEmail is
 	SignUpByEmail(email string, password []byte) (*models.SignUpResponse, error)
 
@@ -83,7 +83,7 @@ func New(addr string, timeout time.Duration) (IUserAPI, error) {
 	return api, nil
 }
 
-func (api *UsersAPI) UpdateUser(user models.UpdateUserRequest) (*models.User, error) {
+func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	protoUser := models.Proto(user)
@@ -93,7 +93,7 @@ func (api *UsersAPI) UpdateUser(user models.UpdateUserRequest) (*models.User, er
 	}
 	return models.UserFromProto(resp), nil
 }
-func (api *UsersAPI) UpdateAddress(user models.UpdateAddressRequest) (*models.User, error) {
+func (api *UsersAPI) UpdateAddress(user *models.UpdateAddressRequest) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	protoUser := models.UpdateAddressToProto(user)
@@ -103,7 +103,7 @@ func (api *UsersAPI) UpdateAddress(user models.UpdateAddressRequest) (*models.Us
 	}
 	return models.UserFromProto(resp), nil
 }
-func (api *UsersAPI) AddAddress(user models.AddAddressRequest) (*models.User, error) {
+func (api *UsersAPI) AddAddress(user *models.AddAddressRequest) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	protoUser := models.AddAddressToProto(user)

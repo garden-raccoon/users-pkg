@@ -63,7 +63,7 @@ func (u User) Proto() *proto.User {
 	}
 	return user
 }
-func AddAddressToProto(u AddAddressRequest) *proto.AddAddressesRequest {
+func AddAddressToProto(u *AddAddressRequest) *proto.AddAddressesRequest {
 	fields := &proto.AddAddressesRequest{UserUuid: u.UserUUID.Bytes()}
 
 	if u.Addresses != nil {
@@ -72,7 +72,7 @@ func AddAddressToProto(u AddAddressRequest) *proto.AddAddressesRequest {
 	}
 	return fields
 }
-func UpdateAddressToProto(u UpdateAddressRequest) *proto.UpdateAddressRequest {
+func UpdateAddressToProto(u *UpdateAddressRequest) *proto.UpdateAddressRequest {
 	fields := &proto.UpdateAddressRequest{UserUuid: u.UserUUID.Bytes()}
 	if u.Address != nil {
 		fields.Address = addressToProto(u.Address)
@@ -82,7 +82,7 @@ func UpdateAddressToProto(u UpdateAddressRequest) *proto.UpdateAddressRequest {
 }
 
 // Proto is
-func Proto(u UpdateUserRequest) *proto.UpdateUserRequest {
+func Proto(u *UpdateUserRequest) *proto.UpdateUserRequest {
 	fields := &proto.UpdateUserRequest{UserUuid: u.UserUUID.Bytes()}
 
 	if u.Email != nil {
