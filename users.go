@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/garden-raccoon/users-pkg/models"
 	"github.com/gofrs/uuid"
+	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"sync"
@@ -143,8 +144,15 @@ func (api *UsersAPI) initConn(addr string) (err error) {
 		Timeout:             time.Second,      // wait 1 second for ping ack before considering the connection dead
 		PermitWithoutStream: true,             // send pings even without active streams
 	}
-
-	api.ClientConn, err = grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithKeepaliveParams(kacp))
+	connParams := grpc.WithConnectParams(grpc.ConnectParams{
+		Backoff: backoff.Config{
+			BaseDelay:  100 * time.Millisecond,
+			Multiplier: 1.2,
+			MaxDelay:   1 * time.Second,
+		},
+		MinConnectTimeout: 5 * time.Second,
+	})
+	api.ClientConn, err = grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithKeepaliveParams(kacp), connParams)
 	if err != nil {
 		return fmt.Errorf("failed to dial: %w", err)
 	}
