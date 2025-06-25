@@ -54,6 +54,7 @@ type IUserAPI interface {
 	// SignInByPhone is
 	SignInByPhone(phone string, password []byte) ([]byte, error)
 
+	RequestPasswordChange(phone string) error
 	VerifyUserByPhone(phone, checkPhrase string) ([]byte, error)
 
 	VerifyPasswordChange(phone, checkPhrase string, password []byte) ([]byte, error)
@@ -85,6 +86,16 @@ func New(addr string, timeout time.Duration) (IUserAPI, error) {
 
 	api.UserServiceClient = proto.NewUserServiceClient(api.ClientConn)
 	return api, nil
+}
+
+func (api *UsersAPI) RequestPasswordChange(phone string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	req := &proto.PasswordChangeRequest{Phone: phone}
+	if _, err := api.UserServiceClient.RequestPasswordChange(ctx, req); err != nil {
+		return fmt.Errorf("request password change failed: %w", err)
+	}
+	return nil
 }
 
 func (api *UsersAPI) UpdateUser(user *models.UpdateUserRequest) (*models.User, error) {

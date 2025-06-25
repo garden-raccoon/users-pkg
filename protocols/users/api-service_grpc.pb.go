@@ -19,21 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_CreateUser_FullMethodName           = "/service.UserService/CreateUser"
-	UserService_CheckAuth_FullMethodName            = "/service.UserService/CheckAuth"
-	UserService_GetUserRoles_FullMethodName         = "/service.UserService/GetUserRoles"
-	UserService_GetIsAdmin_FullMethodName           = "/service.UserService/GetIsAdmin"
-	UserService_UserBy_FullMethodName               = "/service.UserService/UserBy"
-	UserService_UpdateUser_FullMethodName           = "/service.UserService/UpdateUser"
-	UserService_UpdateAddress_FullMethodName        = "/service.UserService/UpdateAddress"
-	UserService_AddAddresses_FullMethodName         = "/service.UserService/AddAddresses"
-	UserService_DeleteAddress_FullMethodName        = "/service.UserService/DeleteAddress"
-	UserService_VerifyUserByPhone_FullMethodName    = "/service.UserService/VerifyUserByPhone"
-	UserService_SignUp_FullMethodName               = "/service.UserService/SignUp"
-	UserService_ResetPassword_FullMethodName        = "/service.UserService/ResetPassword"
-	UserService_VerifyPasswordChange_FullMethodName = "/service.UserService/VerifyPasswordChange"
-	UserService_UpdatePassword_FullMethodName       = "/service.UserService/UpdatePassword"
-	UserService_SignIn_FullMethodName               = "/service.UserService/SignIn"
+	UserService_CreateUser_FullMethodName            = "/service.UserService/CreateUser"
+	UserService_CheckAuth_FullMethodName             = "/service.UserService/CheckAuth"
+	UserService_GetUserRoles_FullMethodName          = "/service.UserService/GetUserRoles"
+	UserService_GetIsAdmin_FullMethodName            = "/service.UserService/GetIsAdmin"
+	UserService_UserBy_FullMethodName                = "/service.UserService/UserBy"
+	UserService_UpdateUser_FullMethodName            = "/service.UserService/UpdateUser"
+	UserService_UpdateAddress_FullMethodName         = "/service.UserService/UpdateAddress"
+	UserService_AddAddresses_FullMethodName          = "/service.UserService/AddAddresses"
+	UserService_DeleteAddress_FullMethodName         = "/service.UserService/DeleteAddress"
+	UserService_VerifyUserByPhone_FullMethodName     = "/service.UserService/VerifyUserByPhone"
+	UserService_SignUp_FullMethodName                = "/service.UserService/SignUp"
+	UserService_ResetPassword_FullMethodName         = "/service.UserService/ResetPassword"
+	UserService_RequestPasswordChange_FullMethodName = "/service.UserService/RequestPasswordChange"
+	UserService_VerifyPasswordChange_FullMethodName  = "/service.UserService/VerifyPasswordChange"
+	UserService_UpdatePassword_FullMethodName        = "/service.UserService/UpdatePassword"
+	UserService_SignIn_FullMethodName                = "/service.UserService/SignIn"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -54,6 +55,7 @@ type UserServiceClient interface {
 	VerifyUserByPhone(ctx context.Context, in *VerifyByPhoneRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*UserEmpty, error)
+	RequestPasswordChange(ctx context.Context, in *PasswordChangeRequest, opts ...grpc.CallOption) (*UserEmpty, error)
 	VerifyPasswordChange(ctx context.Context, in *VerifyPasswordChangeRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*UserEmpty, error)
 	// SignInRequest
@@ -188,6 +190,16 @@ func (c *userServiceClient) ResetPassword(ctx context.Context, in *ResetPassword
 	return out, nil
 }
 
+func (c *userServiceClient) RequestPasswordChange(ctx context.Context, in *PasswordChangeRequest, opts ...grpc.CallOption) (*UserEmpty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserEmpty)
+	err := c.cc.Invoke(ctx, UserService_RequestPasswordChange_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) VerifyPasswordChange(ctx context.Context, in *VerifyPasswordChangeRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TokenResponse)
@@ -236,6 +248,7 @@ type UserServiceServer interface {
 	VerifyUserByPhone(context.Context, *VerifyByPhoneRequest) (*TokenResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	ResetPassword(context.Context, *ResetPasswordRequest) (*UserEmpty, error)
+	RequestPasswordChange(context.Context, *PasswordChangeRequest) (*UserEmpty, error)
 	VerifyPasswordChange(context.Context, *VerifyPasswordChangeRequest) (*TokenResponse, error)
 	UpdatePassword(context.Context, *UpdatePasswordRequest) (*UserEmpty, error)
 	// SignInRequest
@@ -285,6 +298,9 @@ func (UnimplementedUserServiceServer) SignUp(context.Context, *SignUpRequest) (*
 }
 func (UnimplementedUserServiceServer) ResetPassword(context.Context, *ResetPasswordRequest) (*UserEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedUserServiceServer) RequestPasswordChange(context.Context, *PasswordChangeRequest) (*UserEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestPasswordChange not implemented")
 }
 func (UnimplementedUserServiceServer) VerifyPasswordChange(context.Context, *VerifyPasswordChangeRequest) (*TokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyPasswordChange not implemented")
@@ -532,6 +548,24 @@ func _UserService_ResetPassword_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_RequestPasswordChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PasswordChangeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RequestPasswordChange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_RequestPasswordChange_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RequestPasswordChange(ctx, req.(*PasswordChangeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_VerifyPasswordChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyPasswordChangeRequest)
 	if err := dec(in); err != nil {
@@ -640,6 +674,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetPassword",
 			Handler:    _UserService_ResetPassword_Handler,
+		},
+		{
+			MethodName: "RequestPasswordChange",
+			Handler:    _UserService_RequestPasswordChange_Handler,
 		},
 		{
 			MethodName: "VerifyPasswordChange",

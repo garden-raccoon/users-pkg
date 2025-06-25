@@ -23,7 +23,7 @@ service UserService {
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
 
     rpc ResetPassword (ResetPasswordRequest) returns (UserEmpty);
-
+    rpc RequestPasswordChange(PasswordChangeRequest) returns(UserEmpty);
     rpc VerifyPasswordChange (VerifyPasswordChangeRequest) returns (TokenResponse);
     rpc UpdatePassword (UpdatePasswordRequest) returns (UserEmpty);
     // SignInRequest
@@ -31,6 +31,10 @@ service UserService {
 
 }
 
+
+message PasswordChangeRequest {
+    string phone = 1;
+}
 message VerifyPasswordChangeRequest{
     string  phone   = 1;
     string check_phrase = 2;
