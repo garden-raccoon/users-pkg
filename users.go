@@ -55,6 +55,8 @@ type IUserAPI interface {
 	SignInByPhone(phone string, password []byte) ([]byte, error)
 
 	VerifyUserByPhone(phone, checkPhrase string) ([]byte, error)
+
+	VerifyPasswordChange(phone, checkPhrase string, password []byte) ([]byte, error)
 	HealthCheck() error
 
 	// Close GRPC Api connection
@@ -260,6 +262,21 @@ func (api *UsersAPI) VerifyUserByPhone(phone, checkPhrase string) ([]byte, error
 		return nil, fmt.Errorf("verifying user by phone failed: %w", err)
 	}
 
+	return resp.Token, nil
+}
+
+func (api *UsersAPI) VerifyPasswordChange(phone, checkPhrase string, password []byte) ([]byte, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	opts := &proto.VerifyPasswordChangeRequest{
+		Phone:       phone,
+		CheckPhrase: checkPhrase,
+		Password:    password,
+	}
+	resp, err := api.UserServiceClient.VerifyPasswordChange(ctx, opts)
+	if err != nil {
+		return nil, fmt.Errorf("verifying password change failed: %w", err)
+	}
 	return resp.Token, nil
 }
 

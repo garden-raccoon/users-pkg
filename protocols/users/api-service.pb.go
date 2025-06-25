@@ -21,6 +21,66 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type VerifyPasswordChangeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	CheckPhrase   string                 `protobuf:"bytes,2,opt,name=check_phrase,json=checkPhrase,proto3" json:"check_phrase,omitempty"`
+	Password      []byte                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyPasswordChangeRequest) Reset() {
+	*x = VerifyPasswordChangeRequest{}
+	mi := &file_api_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyPasswordChangeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyPasswordChangeRequest) ProtoMessage() {}
+
+func (x *VerifyPasswordChangeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyPasswordChangeRequest.ProtoReflect.Descriptor instead.
+func (*VerifyPasswordChangeRequest) Descriptor() ([]byte, []int) {
+	return file_api_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *VerifyPasswordChangeRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *VerifyPasswordChangeRequest) GetCheckPhrase() string {
+	if x != nil {
+		return x.CheckPhrase
+	}
+	return ""
+}
+
+func (x *VerifyPasswordChangeRequest) GetPassword() []byte {
+	if x != nil {
+		return x.Password
+	}
+	return nil
+}
+
 type IsAdminResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IsAdmin       bool                   `protobuf:"varint,1,opt,name=isAdmin,proto3" json:"isAdmin,omitempty"`
@@ -30,7 +90,7 @@ type IsAdminResponse struct {
 
 func (x *IsAdminResponse) Reset() {
 	*x = IsAdminResponse{}
-	mi := &file_api_service_proto_msgTypes[0]
+	mi := &file_api_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +102,7 @@ func (x *IsAdminResponse) String() string {
 func (*IsAdminResponse) ProtoMessage() {}
 
 func (x *IsAdminResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[0]
+	mi := &file_api_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +115,7 @@ func (x *IsAdminResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsAdminResponse.ProtoReflect.Descriptor instead.
 func (*IsAdminResponse) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{0}
+	return file_api_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *IsAdminResponse) GetIsAdmin() bool {
@@ -74,7 +134,7 @@ type UserRolesResponse struct {
 
 func (x *UserRolesResponse) Reset() {
 	*x = UserRolesResponse{}
-	mi := &file_api_service_proto_msgTypes[1]
+	mi := &file_api_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +146,7 @@ func (x *UserRolesResponse) String() string {
 func (*UserRolesResponse) ProtoMessage() {}
 
 func (x *UserRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[1]
+	mi := &file_api_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +159,7 @@ func (x *UserRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRolesResponse.ProtoReflect.Descriptor instead.
 func (*UserRolesResponse) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{1}
+	return file_api_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UserRolesResponse) GetUserRoles() []string {
@@ -118,7 +178,7 @@ type ResetPasswordRequest struct {
 
 func (x *ResetPasswordRequest) Reset() {
 	*x = ResetPasswordRequest{}
-	mi := &file_api_service_proto_msgTypes[2]
+	mi := &file_api_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -130,7 +190,7 @@ func (x *ResetPasswordRequest) String() string {
 func (*ResetPasswordRequest) ProtoMessage() {}
 
 func (x *ResetPasswordRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[2]
+	mi := &file_api_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +203,7 @@ func (x *ResetPasswordRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResetPasswordRequest.ProtoReflect.Descriptor instead.
 func (*ResetPasswordRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{2}
+	return file_api_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ResetPasswordRequest) GetPhone() string {
@@ -163,7 +223,7 @@ type UpdatePasswordRequest struct {
 
 func (x *UpdatePasswordRequest) Reset() {
 	*x = UpdatePasswordRequest{}
-	mi := &file_api_service_proto_msgTypes[3]
+	mi := &file_api_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -175,7 +235,7 @@ func (x *UpdatePasswordRequest) String() string {
 func (*UpdatePasswordRequest) ProtoMessage() {}
 
 func (x *UpdatePasswordRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[3]
+	mi := &file_api_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -188,7 +248,7 @@ func (x *UpdatePasswordRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePasswordRequest.ProtoReflect.Descriptor instead.
 func (*UpdatePasswordRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{3}
+	return file_api_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdatePasswordRequest) GetPassword() []byte {
@@ -215,7 +275,7 @@ type DeleteAddressRequest struct {
 
 func (x *DeleteAddressRequest) Reset() {
 	*x = DeleteAddressRequest{}
-	mi := &file_api_service_proto_msgTypes[4]
+	mi := &file_api_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +287,7 @@ func (x *DeleteAddressRequest) String() string {
 func (*DeleteAddressRequest) ProtoMessage() {}
 
 func (x *DeleteAddressRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[4]
+	mi := &file_api_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +300,7 @@ func (x *DeleteAddressRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAddressRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAddressRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{4}
+	return file_api_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteAddressRequest) GetAddressUuid() []byte {
@@ -274,7 +334,7 @@ type UpdateUserRequest struct {
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_api_service_proto_msgTypes[5]
+	mi := &file_api_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -286,7 +346,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[5]
+	mi := &file_api_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -299,7 +359,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{5}
+	return file_api_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateUserRequest) GetUserUuid() []byte {
@@ -375,7 +435,7 @@ type AddAddressesRequest struct {
 
 func (x *AddAddressesRequest) Reset() {
 	*x = AddAddressesRequest{}
-	mi := &file_api_service_proto_msgTypes[6]
+	mi := &file_api_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +447,7 @@ func (x *AddAddressesRequest) String() string {
 func (*AddAddressesRequest) ProtoMessage() {}
 
 func (x *AddAddressesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[6]
+	mi := &file_api_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +460,7 @@ func (x *AddAddressesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddAddressesRequest.ProtoReflect.Descriptor instead.
 func (*AddAddressesRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{6}
+	return file_api_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *AddAddressesRequest) GetUserUuid() []byte {
@@ -427,7 +487,7 @@ type UpdateAddressRequest struct {
 
 func (x *UpdateAddressRequest) Reset() {
 	*x = UpdateAddressRequest{}
-	mi := &file_api_service_proto_msgTypes[7]
+	mi := &file_api_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -439,7 +499,7 @@ func (x *UpdateAddressRequest) String() string {
 func (*UpdateAddressRequest) ProtoMessage() {}
 
 func (x *UpdateAddressRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[7]
+	mi := &file_api_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -452,7 +512,7 @@ func (x *UpdateAddressRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAddressRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAddressRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{7}
+	return file_api_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateAddressRequest) GetUserUuid() []byte {
@@ -478,7 +538,7 @@ type SignUpResponse struct {
 
 func (x *SignUpResponse) Reset() {
 	*x = SignUpResponse{}
-	mi := &file_api_service_proto_msgTypes[8]
+	mi := &file_api_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -490,7 +550,7 @@ func (x *SignUpResponse) String() string {
 func (*SignUpResponse) ProtoMessage() {}
 
 func (x *SignUpResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[8]
+	mi := &file_api_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -503,7 +563,7 @@ func (x *SignUpResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignUpResponse.ProtoReflect.Descriptor instead.
 func (*SignUpResponse) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{8}
+	return file_api_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SignUpResponse) GetUserUuid() []byte {
@@ -523,7 +583,7 @@ type VerifyByPhoneRequest struct {
 
 func (x *VerifyByPhoneRequest) Reset() {
 	*x = VerifyByPhoneRequest{}
-	mi := &file_api_service_proto_msgTypes[9]
+	mi := &file_api_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -535,7 +595,7 @@ func (x *VerifyByPhoneRequest) String() string {
 func (*VerifyByPhoneRequest) ProtoMessage() {}
 
 func (x *VerifyByPhoneRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[9]
+	mi := &file_api_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -548,7 +608,7 @@ func (x *VerifyByPhoneRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyByPhoneRequest.ProtoReflect.Descriptor instead.
 func (*VerifyByPhoneRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{9}
+	return file_api_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *VerifyByPhoneRequest) GetPhone() string {
@@ -580,7 +640,7 @@ type SignUpRequest struct {
 
 func (x *SignUpRequest) Reset() {
 	*x = SignUpRequest{}
-	mi := &file_api_service_proto_msgTypes[10]
+	mi := &file_api_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -592,7 +652,7 @@ func (x *SignUpRequest) String() string {
 func (*SignUpRequest) ProtoMessage() {}
 
 func (x *SignUpRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[10]
+	mi := &file_api_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -605,7 +665,7 @@ func (x *SignUpRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignUpRequest.ProtoReflect.Descriptor instead.
 func (*SignUpRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{10}
+	return file_api_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *SignUpRequest) GetLoginType() isSignUpRequest_LoginType {
@@ -671,7 +731,7 @@ type SignInRequest struct {
 
 func (x *SignInRequest) Reset() {
 	*x = SignInRequest{}
-	mi := &file_api_service_proto_msgTypes[11]
+	mi := &file_api_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -683,7 +743,7 @@ func (x *SignInRequest) String() string {
 func (*SignInRequest) ProtoMessage() {}
 
 func (x *SignInRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[11]
+	mi := &file_api_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -696,7 +756,7 @@ func (x *SignInRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignInRequest.ProtoReflect.Descriptor instead.
 func (*SignInRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{11}
+	return file_api_service_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *SignInRequest) GetLoginType() isSignInRequest_LoginType {
@@ -755,7 +815,7 @@ type UserEmpty struct {
 
 func (x *UserEmpty) Reset() {
 	*x = UserEmpty{}
-	mi := &file_api_service_proto_msgTypes[12]
+	mi := &file_api_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -767,7 +827,7 @@ func (x *UserEmpty) String() string {
 func (*UserEmpty) ProtoMessage() {}
 
 func (x *UserEmpty) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[12]
+	mi := &file_api_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -780,7 +840,7 @@ func (x *UserEmpty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserEmpty.ProtoReflect.Descriptor instead.
 func (*UserEmpty) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{12}
+	return file_api_service_proto_rawDescGZIP(), []int{13}
 }
 
 type TokenRequest struct {
@@ -792,7 +852,7 @@ type TokenRequest struct {
 
 func (x *TokenRequest) Reset() {
 	*x = TokenRequest{}
-	mi := &file_api_service_proto_msgTypes[13]
+	mi := &file_api_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -804,7 +864,7 @@ func (x *TokenRequest) String() string {
 func (*TokenRequest) ProtoMessage() {}
 
 func (x *TokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[13]
+	mi := &file_api_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -817,7 +877,7 @@ func (x *TokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TokenRequest.ProtoReflect.Descriptor instead.
 func (*TokenRequest) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{13}
+	return file_api_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *TokenRequest) GetToken() []byte {
@@ -837,7 +897,7 @@ type TokenResponse struct {
 
 func (x *TokenResponse) Reset() {
 	*x = TokenResponse{}
-	mi := &file_api_service_proto_msgTypes[14]
+	mi := &file_api_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -849,7 +909,7 @@ func (x *TokenResponse) String() string {
 func (*TokenResponse) ProtoMessage() {}
 
 func (x *TokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[14]
+	mi := &file_api_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -862,7 +922,7 @@ func (x *TokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TokenResponse.ProtoReflect.Descriptor instead.
 func (*TokenResponse) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{14}
+	return file_api_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *TokenResponse) GetToken() []byte {
@@ -886,7 +946,7 @@ type UserGetter struct {
 
 func (x *UserGetter) Reset() {
 	*x = UserGetter{}
-	mi := &file_api_service_proto_msgTypes[15]
+	mi := &file_api_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -898,7 +958,7 @@ func (x *UserGetter) String() string {
 func (*UserGetter) ProtoMessage() {}
 
 func (x *UserGetter) ProtoReflect() protoreflect.Message {
-	mi := &file_api_service_proto_msgTypes[15]
+	mi := &file_api_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -911,7 +971,7 @@ func (x *UserGetter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserGetter.ProtoReflect.Descriptor instead.
 func (*UserGetter) Descriptor() ([]byte, []int) {
-	return file_api_service_proto_rawDescGZIP(), []int{15}
+	return file_api_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UserGetter) GetGetter() isUserGetter_Getter {
@@ -974,7 +1034,11 @@ var File_api_service_proto protoreflect.FileDescriptor
 
 const file_api_service_proto_rawDesc = "" +
 	"\n" +
-	"\x11api-service.proto\x12\aservice\x1a\x10api-models.proto\"+\n" +
+	"\x11api-service.proto\x12\aservice\x1a\x10api-models.proto\"r\n" +
+	"\x1bVerifyPasswordChangeRequest\x12\x14\n" +
+	"\x05phone\x18\x01 \x01(\tR\x05phone\x12!\n" +
+	"\fcheck_phrase\x18\x02 \x01(\tR\vcheckPhrase\x12\x1a\n" +
+	"\bpassword\x18\x03 \x01(\fR\bpassword\"+\n" +
 	"\x0fIsAdminResponse\x12\x18\n" +
 	"\aisAdmin\x18\x01 \x01(\bR\aisAdmin\"2\n" +
 	"\x11UserRolesResponse\x12\x1d\n" +
@@ -1032,7 +1096,7 @@ const file_api_service_proto_rawDesc = "" +
 	"\tuser_uuid\x18\x01 \x01(\fH\x00R\buserUuid\x12\x16\n" +
 	"\x05email\x18\x02 \x01(\tH\x00R\x05email\x12\x16\n" +
 	"\x05phone\x18\x03 \x01(\tH\x00R\x05phoneB\b\n" +
-	"\x06getter2\xdf\x06\n" +
+	"\x06getter2\xb5\a\n" +
 	"\vUserService\x12.\n" +
 	"\n" +
 	"CreateUser\x12\f.models.User\x1a\x12.service.UserEmpty\x120\n" +
@@ -1048,7 +1112,8 @@ const file_api_service_proto_rawDesc = "" +
 	"\rDeleteAddress\x12\x1d.service.DeleteAddressRequest\x1a\x12.service.UserEmpty\x12J\n" +
 	"\x11VerifyUserByPhone\x12\x1d.service.VerifyByPhoneRequest\x1a\x16.service.TokenResponse\x129\n" +
 	"\x06SignUp\x12\x16.service.SignUpRequest\x1a\x17.service.SignUpResponse\x12B\n" +
-	"\rResetPassword\x12\x1d.service.ResetPasswordRequest\x1a\x12.service.UserEmpty\x12D\n" +
+	"\rResetPassword\x12\x1d.service.ResetPasswordRequest\x1a\x12.service.UserEmpty\x12T\n" +
+	"\x14VerifyPasswordChange\x12$.service.VerifyPasswordChangeRequest\x1a\x16.service.TokenResponse\x12D\n" +
 	"\x0eUpdatePassword\x12\x1e.service.UpdatePasswordRequest\x1a\x12.service.UserEmpty\x128\n" +
 	"\x06SignIn\x12\x16.service.SignInRequest\x1a\x16.service.TokenResponseB\x11Z\x0fprotocols/usersb\x06proto3"
 
@@ -1064,62 +1129,65 @@ func file_api_service_proto_rawDescGZIP() []byte {
 	return file_api_service_proto_rawDescData
 }
 
-var file_api_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_api_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_api_service_proto_goTypes = []any{
-	(*IsAdminResponse)(nil),       // 0: service.IsAdminResponse
-	(*UserRolesResponse)(nil),     // 1: service.UserRolesResponse
-	(*ResetPasswordRequest)(nil),  // 2: service.ResetPasswordRequest
-	(*UpdatePasswordRequest)(nil), // 3: service.UpdatePasswordRequest
-	(*DeleteAddressRequest)(nil),  // 4: service.DeleteAddressRequest
-	(*UpdateUserRequest)(nil),     // 5: service.UpdateUserRequest
-	(*AddAddressesRequest)(nil),   // 6: service.AddAddressesRequest
-	(*UpdateAddressRequest)(nil),  // 7: service.UpdateAddressRequest
-	(*SignUpResponse)(nil),        // 8: service.SignUpResponse
-	(*VerifyByPhoneRequest)(nil),  // 9: service.VerifyByPhoneRequest
-	(*SignUpRequest)(nil),         // 10: service.SignUpRequest
-	(*SignInRequest)(nil),         // 11: service.SignInRequest
-	(*UserEmpty)(nil),             // 12: service.UserEmpty
-	(*TokenRequest)(nil),          // 13: service.TokenRequest
-	(*TokenResponse)(nil),         // 14: service.TokenResponse
-	(*UserGetter)(nil),            // 15: service.UserGetter
-	(*Addresses)(nil),             // 16: models.Addresses
-	(*Address)(nil),               // 17: models.Address
-	(*User)(nil),                  // 18: models.User
+	(*VerifyPasswordChangeRequest)(nil), // 0: service.VerifyPasswordChangeRequest
+	(*IsAdminResponse)(nil),             // 1: service.IsAdminResponse
+	(*UserRolesResponse)(nil),           // 2: service.UserRolesResponse
+	(*ResetPasswordRequest)(nil),        // 3: service.ResetPasswordRequest
+	(*UpdatePasswordRequest)(nil),       // 4: service.UpdatePasswordRequest
+	(*DeleteAddressRequest)(nil),        // 5: service.DeleteAddressRequest
+	(*UpdateUserRequest)(nil),           // 6: service.UpdateUserRequest
+	(*AddAddressesRequest)(nil),         // 7: service.AddAddressesRequest
+	(*UpdateAddressRequest)(nil),        // 8: service.UpdateAddressRequest
+	(*SignUpResponse)(nil),              // 9: service.SignUpResponse
+	(*VerifyByPhoneRequest)(nil),        // 10: service.VerifyByPhoneRequest
+	(*SignUpRequest)(nil),               // 11: service.SignUpRequest
+	(*SignInRequest)(nil),               // 12: service.SignInRequest
+	(*UserEmpty)(nil),                   // 13: service.UserEmpty
+	(*TokenRequest)(nil),                // 14: service.TokenRequest
+	(*TokenResponse)(nil),               // 15: service.TokenResponse
+	(*UserGetter)(nil),                  // 16: service.UserGetter
+	(*Addresses)(nil),                   // 17: models.Addresses
+	(*Address)(nil),                     // 18: models.Address
+	(*User)(nil),                        // 19: models.User
 }
 var file_api_service_proto_depIdxs = []int32{
-	16, // 0: service.UpdateUserRequest.addresses:type_name -> models.Addresses
-	16, // 1: service.AddAddressesRequest.addresses:type_name -> models.Addresses
-	17, // 2: service.UpdateAddressRequest.address:type_name -> models.Address
-	18, // 3: service.UserService.CreateUser:input_type -> models.User
-	13, // 4: service.UserService.CheckAuth:input_type -> service.TokenRequest
-	13, // 5: service.UserService.GetUserRoles:input_type -> service.TokenRequest
-	13, // 6: service.UserService.GetIsAdmin:input_type -> service.TokenRequest
-	15, // 7: service.UserService.UserBy:input_type -> service.UserGetter
-	5,  // 8: service.UserService.UpdateUser:input_type -> service.UpdateUserRequest
-	7,  // 9: service.UserService.UpdateAddress:input_type -> service.UpdateAddressRequest
-	6,  // 10: service.UserService.AddAddresses:input_type -> service.AddAddressesRequest
-	4,  // 11: service.UserService.DeleteAddress:input_type -> service.DeleteAddressRequest
-	9,  // 12: service.UserService.VerifyUserByPhone:input_type -> service.VerifyByPhoneRequest
-	10, // 13: service.UserService.SignUp:input_type -> service.SignUpRequest
-	2,  // 14: service.UserService.ResetPassword:input_type -> service.ResetPasswordRequest
-	3,  // 15: service.UserService.UpdatePassword:input_type -> service.UpdatePasswordRequest
-	11, // 16: service.UserService.SignIn:input_type -> service.SignInRequest
-	12, // 17: service.UserService.CreateUser:output_type -> service.UserEmpty
-	18, // 18: service.UserService.CheckAuth:output_type -> models.User
-	1,  // 19: service.UserService.GetUserRoles:output_type -> service.UserRolesResponse
-	0,  // 20: service.UserService.GetIsAdmin:output_type -> service.IsAdminResponse
-	18, // 21: service.UserService.UserBy:output_type -> models.User
-	18, // 22: service.UserService.UpdateUser:output_type -> models.User
-	18, // 23: service.UserService.UpdateAddress:output_type -> models.User
-	18, // 24: service.UserService.AddAddresses:output_type -> models.User
-	12, // 25: service.UserService.DeleteAddress:output_type -> service.UserEmpty
-	14, // 26: service.UserService.VerifyUserByPhone:output_type -> service.TokenResponse
-	8,  // 27: service.UserService.SignUp:output_type -> service.SignUpResponse
-	12, // 28: service.UserService.ResetPassword:output_type -> service.UserEmpty
-	12, // 29: service.UserService.UpdatePassword:output_type -> service.UserEmpty
-	14, // 30: service.UserService.SignIn:output_type -> service.TokenResponse
-	17, // [17:31] is the sub-list for method output_type
-	3,  // [3:17] is the sub-list for method input_type
+	17, // 0: service.UpdateUserRequest.addresses:type_name -> models.Addresses
+	17, // 1: service.AddAddressesRequest.addresses:type_name -> models.Addresses
+	18, // 2: service.UpdateAddressRequest.address:type_name -> models.Address
+	19, // 3: service.UserService.CreateUser:input_type -> models.User
+	14, // 4: service.UserService.CheckAuth:input_type -> service.TokenRequest
+	14, // 5: service.UserService.GetUserRoles:input_type -> service.TokenRequest
+	14, // 6: service.UserService.GetIsAdmin:input_type -> service.TokenRequest
+	16, // 7: service.UserService.UserBy:input_type -> service.UserGetter
+	6,  // 8: service.UserService.UpdateUser:input_type -> service.UpdateUserRequest
+	8,  // 9: service.UserService.UpdateAddress:input_type -> service.UpdateAddressRequest
+	7,  // 10: service.UserService.AddAddresses:input_type -> service.AddAddressesRequest
+	5,  // 11: service.UserService.DeleteAddress:input_type -> service.DeleteAddressRequest
+	10, // 12: service.UserService.VerifyUserByPhone:input_type -> service.VerifyByPhoneRequest
+	11, // 13: service.UserService.SignUp:input_type -> service.SignUpRequest
+	3,  // 14: service.UserService.ResetPassword:input_type -> service.ResetPasswordRequest
+	0,  // 15: service.UserService.VerifyPasswordChange:input_type -> service.VerifyPasswordChangeRequest
+	4,  // 16: service.UserService.UpdatePassword:input_type -> service.UpdatePasswordRequest
+	12, // 17: service.UserService.SignIn:input_type -> service.SignInRequest
+	13, // 18: service.UserService.CreateUser:output_type -> service.UserEmpty
+	19, // 19: service.UserService.CheckAuth:output_type -> models.User
+	2,  // 20: service.UserService.GetUserRoles:output_type -> service.UserRolesResponse
+	1,  // 21: service.UserService.GetIsAdmin:output_type -> service.IsAdminResponse
+	19, // 22: service.UserService.UserBy:output_type -> models.User
+	19, // 23: service.UserService.UpdateUser:output_type -> models.User
+	19, // 24: service.UserService.UpdateAddress:output_type -> models.User
+	19, // 25: service.UserService.AddAddresses:output_type -> models.User
+	13, // 26: service.UserService.DeleteAddress:output_type -> service.UserEmpty
+	15, // 27: service.UserService.VerifyUserByPhone:output_type -> service.TokenResponse
+	9,  // 28: service.UserService.SignUp:output_type -> service.SignUpResponse
+	13, // 29: service.UserService.ResetPassword:output_type -> service.UserEmpty
+	15, // 30: service.UserService.VerifyPasswordChange:output_type -> service.TokenResponse
+	13, // 31: service.UserService.UpdatePassword:output_type -> service.UserEmpty
+	15, // 32: service.UserService.SignIn:output_type -> service.TokenResponse
+	18, // [18:33] is the sub-list for method output_type
+	3,  // [3:18] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -1131,15 +1199,15 @@ func file_api_service_proto_init() {
 		return
 	}
 	file_api_models_proto_init()
-	file_api_service_proto_msgTypes[10].OneofWrappers = []any{
+	file_api_service_proto_msgTypes[11].OneofWrappers = []any{
 		(*SignUpRequest_Phone)(nil),
 		(*SignUpRequest_Email)(nil),
 	}
-	file_api_service_proto_msgTypes[11].OneofWrappers = []any{
+	file_api_service_proto_msgTypes[12].OneofWrappers = []any{
 		(*SignInRequest_Phone)(nil),
 		(*SignInRequest_Email)(nil),
 	}
-	file_api_service_proto_msgTypes[15].OneofWrappers = []any{
+	file_api_service_proto_msgTypes[16].OneofWrappers = []any{
 		(*UserGetter_UserUuid)(nil),
 		(*UserGetter_Email)(nil),
 		(*UserGetter_Phone)(nil),
@@ -1150,7 +1218,7 @@ func file_api_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_service_proto_rawDesc), len(file_api_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
