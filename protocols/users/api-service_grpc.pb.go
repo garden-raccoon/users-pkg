@@ -24,6 +24,7 @@ const (
 	UserService_GetUserRoles_FullMethodName          = "/service.UserService/GetUserRoles"
 	UserService_GetIsAdmin_FullMethodName            = "/service.UserService/GetIsAdmin"
 	UserService_UserBy_FullMethodName                = "/service.UserService/UserBy"
+	UserService_DeleteUser_FullMethodName            = "/service.UserService/DeleteUser"
 	UserService_UpdateUser_FullMethodName            = "/service.UserService/UpdateUser"
 	UserService_UpdateAddress_FullMethodName         = "/service.UserService/UpdateAddress"
 	UserService_AddAddresses_FullMethodName          = "/service.UserService/AddAddresses"
@@ -48,6 +49,7 @@ type UserServiceClient interface {
 	GetUserRoles(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*UserRolesResponse, error)
 	GetIsAdmin(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
 	UserBy(ctx context.Context, in *UserGetter, opts ...grpc.CallOption) (*User, error)
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*UserEmpty, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*User, error)
 	AddAddresses(ctx context.Context, in *AddAddressesRequest, opts ...grpc.CallOption) (*User, error)
@@ -114,6 +116,16 @@ func (c *userServiceClient) UserBy(ctx context.Context, in *UserGetter, opts ...
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, UserService_UserBy_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*UserEmpty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserEmpty)
+	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -241,6 +253,7 @@ type UserServiceServer interface {
 	GetUserRoles(context.Context, *TokenRequest) (*UserRolesResponse, error)
 	GetIsAdmin(context.Context, *TokenRequest) (*IsAdminResponse, error)
 	UserBy(context.Context, *UserGetter) (*User, error)
+	DeleteUser(context.Context, *DeleteUserRequest) (*UserEmpty, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*User, error)
 	AddAddresses(context.Context, *AddAddressesRequest) (*User, error)
@@ -277,6 +290,9 @@ func (UnimplementedUserServiceServer) GetIsAdmin(context.Context, *TokenRequest)
 }
 func (UnimplementedUserServiceServer) UserBy(context.Context, *UserGetter) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserBy not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*UserEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
@@ -418,6 +434,24 @@ func _UserService_UserBy_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).UserBy(ctx, req.(*UserGetter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -646,6 +680,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserBy",
 			Handler:    _UserService_UserBy_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _UserService_DeleteUser_Handler,
 		},
 		{
 			MethodName: "UpdateUser",

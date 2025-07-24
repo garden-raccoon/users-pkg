@@ -33,6 +33,7 @@ type User struct {
 	Avatar           string                 `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar,omitempty"`
 	Addresses        *Addresses             `protobuf:"bytes,8,opt,name=addresses,proto3" json:"addresses,omitempty"`
 	Phone            string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
+	Lang             string                 `protobuf:"bytes,10,opt,name=lang,proto3" json:"lang,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -126,6 +127,13 @@ func (x *User) GetAddresses() *Addresses {
 func (x *User) GetPhone() string {
 	if x != nil {
 		return x.Phone
+	}
+	return ""
+}
+
+func (x *User) GetLang() string {
+	if x != nil {
+		return x.Lang
 	}
 	return ""
 }
@@ -246,7 +254,7 @@ var File_api_models_proto protoreflect.FileDescriptor
 
 const file_api_models_proto_rawDesc = "" +
 	"\n" +
-	"\x10api-models.proto\x12\x06models\"\x9d\x02\n" +
+	"\x10api-models.proto\x12\x06models\"\xb1\x02\n" +
 	"\x04User\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\fR\buserUuid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -257,7 +265,9 @@ const file_api_models_proto_rawDesc = "" +
 	"\tlast_name\x18\x06 \x01(\tR\blastName\x12\x16\n" +
 	"\x06avatar\x18\a \x01(\tR\x06avatar\x12/\n" +
 	"\taddresses\x18\b \x01(\v2\x11.models.AddressesR\taddresses\x12\x14\n" +
-	"\x05phone\x18\t \x01(\tR\x05phone\"j\n" +
+	"\x05phone\x18\t \x01(\tR\x05phone\x12\x12\n" +
+	"\x04lang\x18\n" +
+	" \x01(\tR\x04lang\"j\n" +
 	"\aAddress\x12!\n" +
 	"\faddress_uuid\x18\x01 \x01(\fR\vaddressUuid\x12\x12\n" +
 	"\x04city\x18\x02 \x01(\tR\x04city\x12\x16\n" +

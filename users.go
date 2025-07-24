@@ -49,6 +49,8 @@ type IUserAPI interface {
 
 	ResetPassword(phone string) error
 
+	DeleteUser(userUuid uuid.UUID) error
+
 	UpdatePassword(userUUID uuid.UUID, password []byte) error
 
 	// SignInByPhone is
@@ -371,6 +373,18 @@ func (api *UsersAPI) DeleteAddress(addrUuid, userUuid uuid.UUID) error {
 	_, err := api.UserServiceClient.DeleteAddress(ctx, req)
 	if err != nil {
 		return fmt.Errorf("DeleteAddress api request: %w", err)
+	}
+	return nil
+}
+func (api *UsersAPI) DeleteUser(userUuid uuid.UUID) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	req := &proto.DeleteUserRequest{
+		UserUuid: userUuid.Bytes(),
+	}
+	_, err := api.UserServiceClient.DeleteUser(ctx, req)
+	if err != nil {
+		return fmt.Errorf("DeleteUser api request: %w", err)
 	}
 	return nil
 }

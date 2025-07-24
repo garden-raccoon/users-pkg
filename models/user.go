@@ -15,6 +15,7 @@ type User struct {
 	LastName         string
 	Avatar           string
 	ValidationStatus int
+	Lang             string
 	Addresses        []*Address
 }
 type Address struct {
@@ -37,6 +38,7 @@ type UpdateUserRequest struct {
 	LastName         *string
 	Avatar           *string
 	Addresses        []*Address
+	Lang             *string
 }
 
 type AddAddressRequest struct {
@@ -60,6 +62,7 @@ func (u User) Proto() *proto.User {
 		Avatar:    u.Avatar,
 		Addresses: convertToProtoAddresses(u.Addresses),
 		Phone:     u.Phone,
+		Lang:      u.Lang,
 	}
 	return user
 }
@@ -110,7 +113,9 @@ func Proto(u *UpdateUserRequest) *proto.UpdateUserRequest {
 		fields.Addresses = convertToProtoAddresses(u.Addresses)
 
 	}
-
+	if u.Lang != nil {
+		fields.Lang = *u.Lang
+	}
 	if u.ValidationStatus != nil {
 		fields.ValidationStatus = int64(*u.ValidationStatus)
 	}
@@ -181,6 +186,9 @@ func UpdateUserRequestFromProto(pb *proto.UpdateUserRequest) *UpdateUserRequest 
 	if pb.ValidationStatus != 0 {
 		req.ValidationStatus = int64ToPtrInt(pb.ValidationStatus)
 	}
+	if pb.Lang != "" {
+		req.Lang = &pb.Lang
+	}
 	return req
 }
 func UserFromProto(pb *proto.User) *User {
@@ -211,6 +219,9 @@ func UserFromProto(pb *proto.User) *User {
 
 	if pb.Addresses != nil {
 		req.Addresses = convertFromProtoAddresses(pb.Addresses)
+	}
+	if pb.Lang != "" {
+		req.Lang = pb.Lang
 	}
 	return req
 }

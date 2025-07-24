@@ -1,6 +1,6 @@
 module github.com/garden-raccoon/users-pkg
 
-go 1.23.2
+go 1.24.1
 
 require (
 	github.com/gofrs/uuid v4.4.0+incompatible

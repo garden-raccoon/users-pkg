@@ -13,6 +13,7 @@ service UserService {
     rpc GetUserRoles(TokenRequest) returns(UserRolesResponse);
     rpc GetIsAdmin(TokenRequest) returns(IsAdminResponse);
     rpc UserBy(UserGetter) returns(models.User);
+    rpc DeleteUser(DeleteUserRequest) returns(UserEmpty);
 
     rpc UpdateUser(UpdateUserRequest) returns(models.User);
     rpc UpdateAddress(UpdateAddressRequest) returns(models.User);
@@ -21,7 +22,6 @@ service UserService {
     rpc DeleteAddress(DeleteAddressRequest) returns(UserEmpty);
     rpc VerifyUserByPhone(VerifyByPhoneRequest) returns(TokenResponse);
     rpc SignUp(SignUpRequest) returns(SignUpResponse);
-
     rpc ResetPassword (ResetPasswordRequest) returns (UserEmpty);
     rpc RequestPasswordChange(PasswordChangeRequest) returns(UserEmpty);
     rpc VerifyPasswordChange (VerifyPasswordChangeRequest) returns (TokenResponse);
@@ -31,7 +31,9 @@ service UserService {
 
 }
 
-
+message DeleteUserRequest{
+    bytes user_uuid = 1;
+}
 message PasswordChangeRequest {
     string phone = 1;
 }
@@ -69,6 +71,7 @@ message UpdateUserRequest {
     string      avatar                     = 7;
     models.Addresses   addresses              = 8;
     string          phone                  = 9;
+    string        lang = 10;
 }
 message AddAddressesRequest{
     bytes       user_uuid                  = 1;
